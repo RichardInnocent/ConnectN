@@ -1,7 +1,7 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-public class myconnectfour {
+public class MyConnectFour {
 
   public static void main(String[] args){
     new MyConnectFour();
@@ -20,16 +20,16 @@ public class myconnectfour {
     System.out.println("Welcome to Connect 4");
     System.out.println("There are 2 players red and yellow");
     System.out.println("Player 1 is Red, Player 2 is Yellow");
-    System.out.println("To play the game type in the number of the column you want to drop you counter in")
+    System.out.println("To play the game type in the number of the column you want to drop you counter in");
     System.out.println("A player wins by connecting 4 counters in a row - vertically, horizontally or diagonally");
     System.out.println("");
     printBoard();
     boolean win = false;
     while(!win){
       // player 1
-      String userInput = getuserInput();
+      String userInput = getUserInput();
       int move = Integer.parseInt(userInput);
-      placeCounter('r',userInput);
+      placeCounter('r',move);
       boolean hasWon = false;
       int count = 0;
       // check horizontal
@@ -105,7 +105,7 @@ public class myconnectfour {
           }
           count = 0;
         }
-        printBoard()
+        printBoard();
         if(hasWon){
           win = true;
         }
@@ -118,7 +118,7 @@ public class myconnectfour {
   private String getUserInput(){
     String toReturn = null;
     try{
-      String toReturn = input.readLine()
+      toReturn = input.readLine();
     }
     catch(Exception e){
 
@@ -127,8 +127,8 @@ public class myconnectfour {
   }
 
   private void printBoard(){
-    for(int i=0; i<board.length-1; i++);{
-      for(int j=0; j<baord[i].length-1; j++){
+    for(int i=0; i<board.length-1; i++) {
+      for(int j=0; j<board[i].length-1; j++){
         if(board[j][i] == 'r'){
           System.out.print("| r ");
         }
@@ -154,7 +154,7 @@ public class myconnectfour {
           }
           else if(board[i][position] != 'r'){
             board[i][position] = 'r';
-            placed = ture;
+            placed = true;
           }
         }
       }
@@ -162,11 +162,11 @@ public class myconnectfour {
     else{
       for(int i=board.length-1; i>=0; i--){
         if(!placed){
-          if(board[i][position-1] = 'r'){
+          if(board[i][position-1] == 'r'){
             // skip
           }
           else if(board[i][position-1] != 'y'){
-            board[i][position-1] = 'y'
+            board[i][position-1] = 'y';
             placed = true;
           }
         }
