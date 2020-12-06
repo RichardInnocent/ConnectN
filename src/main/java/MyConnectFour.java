@@ -37,7 +37,7 @@ public class MyConnectFour {
         for(int j=0; j<board[i].length; j++){
           if(board[i][j] == 'r'){
             count = count + 1;
-            if(count > 4){
+            if(count >= 4){
               hasWon = true;
             }
           }
@@ -53,7 +53,7 @@ public class MyConnectFour {
         for(int j=0; j<board.length; j++){
           if(board[j][i] == 'r'){
             count = count + 1;
-            if(count > 4){
+            if(count >= 4){
               hasWon = true;
             }
           }
@@ -84,7 +84,7 @@ public class MyConnectFour {
               }
             }
             else{
-
+              count = 0;
             }
           }
           count = 0;
@@ -100,7 +100,7 @@ public class MyConnectFour {
               }
             }
             else{
-
+              count = 0;
             }
           }
           count = 0;
@@ -110,8 +110,8 @@ public class MyConnectFour {
           win = true;
         }
       }
-      System.out.println("You Have Won!!!");
     }
+    System.out.println("You Have Won!!!"); // This was moved from line 113 as this should only happen when a player wins and the game finishes
 
   }
 
@@ -127,12 +127,12 @@ public class MyConnectFour {
   }
 
   private void printBoard(){
-    for(int i=0; i<board.length-1; i++) {
-      for(int j=0; j<board[i].length-1; j++){
-        if(board[j][i] == 'r'){
+    for(int i=0; i<board.length; i++) { // i = row. Changed as need to iterate to end of array
+      for(int j=0; j<board[i].length; j++){ // j = column. Changed as need to iterate to end of array
+        if(board[i][j] == 'r'){
           System.out.print("| r ");
         }
-        else if(board[j][i] == 'y'){
+        else if(board[i][j] == 'y'){
           System.out.print("| y ");
         }
         else{
@@ -147,13 +147,13 @@ public class MyConnectFour {
   private void placeCounter(char player, int position){
     boolean placed = false;
     if(player == 'r'){
-      for(int i=board.length-1; i>=0; i++){
+      for(int i=board.length-1; i>=0; i--){
         if(!placed){
-          if(board[i][position] == 'y'){
+          if(board[i][position-1] == 'y'){
             // skip
           }
-          else if(board[i][position] != 'r'){
-            board[i][position] = 'r';
+          else if(board[i][position-1] != 'r'){
+            board[i][position-1] = 'r';
             placed = true;
           }
         }
