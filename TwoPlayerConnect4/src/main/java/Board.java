@@ -1,4 +1,3 @@
-import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -69,21 +68,21 @@ public class Board implements PrintableObject, Copyable<Board> {
   }
 
   @Override
-  public void printToConsole(PrintStream out) {
+  public void printToConsole(IOHandler ioHandler) {
     for (int row = height-1; row >= 0; row--) {
       for (int column = 0; column < width; column++) {
         char icon = columns[column]
             .getOwnerOfCounterAtIndex(row)
             .map(player -> player.getColour().getIcon())
             .orElse(' ');
-        out.print("| " + icon + " ");
+        ioHandler.print("| " + icon + " ");
       }
-      out.println("|");
+      ioHandler.printLine("|");
     }
     for (int columnNumber = 1; columnNumber <= width; columnNumber++) {
-      out.print("| " + columnNumber + " ");
+      ioHandler.print("| " + columnNumber + " ");
     }
-    out.println("|\n");
+    ioHandler.printLine("|\n");
   }
 
   public Optional<Player> getOwnerOfCounterAt(int rowNumber, int columnNumber)

@@ -1,5 +1,3 @@
-import java.io.PrintStream;
-
 /**
  * Should be inherited by all object types that should be printed to a print stream.
  */
@@ -7,8 +5,9 @@ import java.io.PrintStream;
 public interface PrintableObject {
 
   /**
-   * Prints the object to the specified print stream.
+   * Prints the object to the specified IO output.
+   * @param ioHandler The IO output that the object should be printed to.
    */
-  void printToConsole(PrintStream printStream);
+  void printToConsole(IOHandler ioHandler);
 
 }

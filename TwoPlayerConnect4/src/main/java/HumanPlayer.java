@@ -1,33 +1,28 @@
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Objects;
 
-public class HumanPlayer extends ConstantColourPlayer {
+public class HumanPlayer extends AbstractPlayer {
 
-  private final BufferedReader inputReader;
-
-  public HumanPlayer(PlayerColour colour, BufferedReader inputReader) throws NullPointerException {
+  public HumanPlayer(PlayerColour colour) throws NullPointerException {
     super(colour);
-    this.inputReader = Objects.requireNonNull(inputReader, "Input reader is null");
   }
 
   @Override
-  public void takeTurn(Board board) {
+  public void takeTurnOnIncompleteBoard(Board board, IOHandler ioHandler) {
     boolean turnTaken = false;
 
     while (!turnTaken) {
       try {
-        int chosenColumn = getColumnInput();
+        int chosenColumn = getColumnInput(ioHandler);
         board.placePlayerCounterInColumn(this, chosenColumn);
         turnTaken = true;
       } catch (InvalidMoveException e) {
-        System.out.println(e.getMessage());
+        ioHandler.printLine(e.getMessage());
       }
     }
   }
 
-  private int getColumnInput() throws InvalidMoveException {
-    String input = getInput();
+  private int getColumnInput(IOHandler ioHandler) throws InvalidMoveException {
+    String input = getInput(ioHandler);
     try {
       return Integer.parseInt(input); // Null will be thrown as a NumberFormatException
     } catch (NumberFormatException e) {
@@ -35,12 +30,17 @@ public class HumanPlayer extends ConstantColourPlayer {
     }
   }
 
-  private String getInput() {
+  private String getInput(IOHandler ioHandler) {
     try {
-      return inputReader.readLine();
+      return ioHandler.readLine();
     } catch (IOException e) {
-      System.err.println("Could not read input");
+      ioHandler.printLine("Could not read input");
       return null;
     }
+  }
+
+  @Override
+  public boolean isHuman() {
+    return true;
   }
 }
