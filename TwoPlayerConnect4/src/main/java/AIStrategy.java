@@ -6,7 +6,7 @@
  * responsibility principle (https://stackify.com/solid-design-principles/ accessed 08/12/2020).
  */
 @FunctionalInterface
-public interface AiStrategy {
+public interface AIStrategy {
 
   /**
    * Takes the turn of the AI player.

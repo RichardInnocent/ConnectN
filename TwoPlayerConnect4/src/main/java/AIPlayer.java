@@ -1,8 +1,16 @@
+/**
+ * A computer player. The player should play according to their given {@link AIStrategy}.
+ */
 public class AIPlayer extends AbstractPlayer {
 
-  private final AiStrategy strategy;
+  private final AIStrategy strategy;
 
-  public AIPlayer(PlayerColour colour, AiStrategy strategy) {
+  /**
+   * Creates a computer player.
+   * @param colour The player's colour.
+   * @param strategy The strategy that will be used when taking turns.
+   */
+  public AIPlayer(PlayerColour colour, AIStrategy strategy) {
     super(colour);
     this.strategy = strategy;
   }

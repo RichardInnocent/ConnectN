@@ -2,6 +2,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.Collections;
 import java.util.Optional;
 import java.util.Random;
 import org.junit.Test;
@@ -10,9 +11,9 @@ public class CheckOneTurnWinConditionStrategyTest {
 
   private final IOHandler ioHandler = mock(IOHandler.class);
   private final Random random = mock(Random.class);
-  private final VictoryCondition victoryCondition = new VictoryCondition(4);
-  private final AiStrategy strategy =
-      new CheckOneTurnWinConditionStrategy(victoryCondition, random);
+  private final VictoryCondition victoryCondition = new ConsecutiveCountersVictoryCondition(4);
+  private final AIStrategy strategy =
+      new CheckOneTurnWinConditionStrategy(Collections.singleton(victoryCondition), random);
   private final Player aiPlayer = new AIPlayer(PlayerColour.RED, strategy);
   private final Player otherPlayer = new AIPlayer(PlayerColour.BLUE, new RandomPlacementStrategy());
 

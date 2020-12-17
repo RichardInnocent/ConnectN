@@ -12,19 +12,19 @@ public class AIPlayerTest {
   @Test
   public void testColourIsSet() {
     PlayerColour colour = PlayerColour.BLUE;
-    assertEquals(colour, new AIPlayer(colour, mock(AiStrategy.class)).getColour());
+    assertEquals(colour, new AIPlayer(colour, mock(AIStrategy.class)).getColour());
   }
 
   @Test
   public void isHuman_Always_ReturnsFalse() {
-    assertFalse(new AIPlayer(PlayerColour.CYAN, mock(AiStrategy.class)).isHuman());
+    assertFalse(new AIPlayer(PlayerColour.CYAN, mock(AIStrategy.class)).isHuman());
   }
 
   @Test(expected = BoardFullException.class)
   public void takeTurn_BoardFull_ExceptionThrown() {
     Board board = mock(Board.class);
     when(board.isFull()).thenReturn(true);
-    AiStrategy strategy = mock(AiStrategy.class);
+    AIStrategy strategy = mock(AIStrategy.class);
     Player player = new AIPlayer(PlayerColour.BLUE, strategy);
     player.takeTurn(board, mock(IOHandler.class));
     verify(strategy, never()).takeTurn(board, player);
@@ -32,7 +32,7 @@ public class AIPlayerTest {
 
   @Test
   public void testStrategyIsUsedWhenTakingTurn() {
-    AiStrategy strategy = mock(AiStrategy.class);
+    AIStrategy strategy = mock(AIStrategy.class);
     Board board = mock(Board.class);
     Player player = new AIPlayer(PlayerColour.BLUE, strategy);
     player.takeTurn(board, mock(IOHandler.class));

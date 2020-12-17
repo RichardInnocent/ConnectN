@@ -2,6 +2,7 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
 public class MyConnectFour {
 
@@ -11,7 +12,7 @@ public class MyConnectFour {
 
   private final Board board = new Board(6, 7);
   private final Collection<Player> players;
-  private final VictoryCondition victoryCondition = new VictoryCondition(4);
+  private final VictoryCondition victoryCondition = new ConsecutiveCountersVictoryCondition(4);
   private final IOHandler ioHandler;
 
   public MyConnectFour() {
@@ -20,7 +21,8 @@ public class MyConnectFour {
 
   public MyConnectFour(InputStream inputStream, PrintStream outputStream) {
     this.ioHandler = new SingleSourceIOHandler(inputStream, outputStream);
-    AiStrategy strategy = new CheckOneTurnWinConditionStrategy(victoryCondition);
+    AIStrategy strategy =
+        new CheckOneTurnWinConditionStrategy(Collections.singleton(victoryCondition));
     players = Arrays.asList(
         new HumanPlayer(PlayerColour.RED),
         new AIPlayer(PlayerColour.YELLOW, strategy)

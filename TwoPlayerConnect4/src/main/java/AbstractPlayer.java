@@ -1,7 +1,9 @@
 import java.util.Objects;
 
 /**
- * Abstract implementation of a player with a static (unchangeable) player colour.
+ * Abstract implementation of a player with a static (unchangeable) player colour. The
+ * {@link #takeTurn(Board, IOHandler)} method is also overridden to provide safety in the case of a
+ * full board.
  */
 public abstract class AbstractPlayer implements Player {
 

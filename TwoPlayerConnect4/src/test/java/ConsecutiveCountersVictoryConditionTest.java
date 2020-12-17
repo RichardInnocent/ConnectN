@@ -6,11 +6,11 @@ import static org.mockito.Mockito.when;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class VictoryConditionTest {
+public class ConsecutiveCountersVictoryConditionTest {
 
   private static final Player CHECKED_PLAYER = mock(Player.class, "X");
   private static final Player UNCHECKED_PLAYER = mock(Player.class, "-");
-  private static final VictoryCondition VICTORY_CONDITION = new VictoryCondition(4);
+  private static final VictoryCondition VICTORY_CONDITION = new ConsecutiveCountersVictoryCondition(4);
 
   @BeforeClass
   public static void setUpPlayers() {

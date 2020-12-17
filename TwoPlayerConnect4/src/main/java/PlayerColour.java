@@ -1,3 +1,6 @@
+/**
+ * A player's colour.
+ */
 public enum PlayerColour {
   RED("Red", 'r'),
   YELLOW("Yellow", 'y'),
@@ -16,10 +19,18 @@ public enum PlayerColour {
     this.icon = icon;
   }
 
+  /**
+   * Gets the single-character icon for the colour.
+   * @return The single-character icon for the colour.
+   */
   public char getIcon() {
     return icon;
   }
 
+  /**
+   * Gets the user-friendly name of the icon.
+   * @return The user-friendly name of the icon.
+   */
   public String getName() {
     return name;
   }
