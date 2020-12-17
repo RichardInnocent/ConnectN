@@ -4,10 +4,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
-public class MyConnectFour {
+public class MyConnectN {
 
   public static void main(String[] args){
-    new MyConnectFour().playGame();
+    new MyConnectN().playGame();
   }
 
   private final Board board = new Board(6, 7);
@@ -15,11 +15,11 @@ public class MyConnectFour {
   private final VictoryCondition victoryCondition = new ConsecutiveCountersVictoryCondition(4);
   private final IOHandler ioHandler;
 
-  public MyConnectFour() {
+  public MyConnectN() {
     this(System.in, System.out);
   }
 
-  public MyConnectFour(InputStream inputStream, PrintStream outputStream) {
+  public MyConnectN(InputStream inputStream, PrintStream outputStream) {
     this.ioHandler = new SingleSourceIOHandler(inputStream, outputStream);
     AIStrategy strategy =
         new CheckOneTurnWinConditionStrategy(Collections.singleton(victoryCondition));
