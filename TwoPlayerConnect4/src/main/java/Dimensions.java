@@ -1,4 +1,6 @@
-public class Dimensions {
+import java.util.Objects;
+
+public final class Dimensions {
 
   private final int width;
   private final int height;
@@ -16,4 +18,25 @@ public class Dimensions {
     return height;
   }
 
+  @Override
+  public String toString() {
+    return "[" + width + ", " + height + "]";
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Dimensions that = (Dimensions) o;
+    return width == that.width && height == that.height;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(width, height);
+  }
 }
