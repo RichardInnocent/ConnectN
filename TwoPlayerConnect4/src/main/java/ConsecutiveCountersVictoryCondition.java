@@ -23,7 +23,7 @@ public class ConsecutiveCountersVictoryCondition implements VictoryCondition {
 
   @Override
   public String toString() {
-    return "4 counters in a row";
+    return "4 counters in a row in the horizontal, vertical or diagonal directions";
   }
 
   public int getConsecutiveCountersRequired() {
