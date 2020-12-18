@@ -8,6 +8,16 @@ import java.util.stream.IntStream;
 
 public class GameConfig {
 
+  private static final String BOARD_WIDTH_KEY = "board.width";
+  private static final String BOARD_HEIGHT_KEY = "board.height";
+  private static final String NUMBER_OF_PLAYERS_KEY = "players.number";
+  private static final String VICTORY_COUNTERS = "players.victory.counters";
+  private static final String AI_DIFFICULTY_KEY = "ai.difficulty";
+  private static final String PLAYER_COLOUR_KEY_SUFFIX = ".colour";
+  private static final String PLAYER_AI_SUFFIX = ".ai";
+  private static final String PLAYER_AI_DIFFICULTY_SUFFIX = '.' + AI_DIFFICULTY_KEY;
+  private static final String PLAYER_VICTORY_COUNTERS_SUFFIX = ".victory.counters";
+
   private final BoardConfiguration boardConfiguration;
   private final List<PlayerConfiguration> playerConfigurations;
 
@@ -26,8 +36,8 @@ public class GameConfig {
   }
 
   private BoardConfiguration createBoardConfiguration(PropertiesReader propertiesReader) {
-    int width = propertiesReader.getInteger("board.width").orElse(6);
-    int height = propertiesReader.getInteger("board.height").orElse(7);
+    int width = propertiesReader.getInteger(BOARD_WIDTH_KEY).orElse(6);
+    int height = propertiesReader.getInteger(BOARD_HEIGHT_KEY).orElse(7);
     return BoardConfiguration.forDimensions(new Dimensions(width, height));
   }
 
@@ -58,7 +68,7 @@ public class GameConfig {
     int minPlayers = 2;
     int maxPlayers = PlayerColour.values().length;
 
-    int numberOfPlayers = propertiesReader.getInteger("players.number").orElse(minPlayers);
+    int numberOfPlayers = propertiesReader.getInteger(NUMBER_OF_PLAYERS_KEY).orElse(minPlayers);
 
     if (numberOfPlayers < minPlayers || numberOfPlayers > maxPlayers) {
       throw new IllegalArgumentException(
@@ -77,15 +87,17 @@ public class GameConfig {
 
     PlayerConfiguration.Builder configBuilder = PlayerConfiguration.builder();
 
-    getPlayerColour(nameInConfig + ".colour", propertiesReader).ifPresent(configBuilder::setColour);
+    getPlayerColour(nameInConfig + PLAYER_COLOUR_KEY_SUFFIX, propertiesReader)
+        .ifPresent(configBuilder::setColour);
 
-    propertiesReader.getBoolean(nameInConfig + ".ai")
+    propertiesReader.getBoolean(nameInConfig + PLAYER_AI_SUFFIX)
                     .ifPresent(configBuilder::setComputerPlayer);
 
-    getDifficulty(nameInConfig + ".ai.difficulty", propertiesReader)
+    getDifficulty(nameInConfig + PLAYER_AI_DIFFICULTY_SUFFIX, propertiesReader)
         .ifPresent(configBuilder::setDifficulty);
 
-    getConsecutiveCounterVictoryCondition(nameInConfig + ".victory.counters", propertiesReader)
+    getConsecutiveCounterVictoryCondition(
+        nameInConfig + PLAYER_VICTORY_COUNTERS_SUFFIX, propertiesReader)
         .ifPresent(configBuilder::setVictoryCondition);
 
     return configBuilder;
@@ -107,10 +119,10 @@ public class GameConfig {
   private List<PlayerConfiguration> createPlayerConfigurations(
       List<PlayerConfiguration.Builder> configBuilders, PropertiesReader propertiesReader) {
     Difficulty defaultDifficulty =
-        getDifficulty("ai.difficulty", propertiesReader).orElse(Difficulty.MODERATE);
+        getDifficulty(AI_DIFFICULTY_KEY, propertiesReader).orElse(Difficulty.MODERATE);
 
     ConsecutiveCountersVictoryCondition defaultVictoryCondition =
-        getConsecutiveCounterVictoryCondition("players.victory.counters", propertiesReader)
+        getConsecutiveCounterVictoryCondition(VICTORY_COUNTERS, propertiesReader)
             .orElse(new ConsecutiveCountersVictoryCondition(4));
 
     List<PlayerColour> availableColours = new ArrayList<>(Arrays.asList(PlayerColour.values()));

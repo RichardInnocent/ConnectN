@@ -8,14 +8,6 @@ import java.util.stream.Collectors;
 
 public class MyConnectN {
 
-  public static void main(String[] args) throws IOException {
-    Properties properties = new Properties();
-    if (args.length > 0) {
-      properties.load(new FileInputStream(args[0]));
-    }
-    new MyConnectN(properties).playGame();
-  }
-
   private final Board board;
   private final Collection<Player> players;
   private final IOHandler ioHandler;
@@ -54,6 +46,43 @@ public class MyConnectN {
         }
       }
     } while (true);
+  }
+
+  public static void main(String[] args) {
+    try {
+      createAndStartGame(args);
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
+  }
+
+  private static void createAndStartGame(String[] args) throws RuntimeException {
+    Properties properties = getPropertiesFromArguments(args);
+    new MyConnectN(properties).playGame();
+  }
+
+  private static Properties getPropertiesFromArguments(String[] args) {
+    Properties gameProperties = new Properties();
+    if (args.length == 0) {
+      System.out.println(
+          "No config file supplied. Creating a standard game of Connect Four..."
+              + System.lineSeparator()
+      );
+      return gameProperties;
+    }
+
+    try {
+      gameProperties.load(new FileInputStream(args[0]));
+      return gameProperties;
+    } catch (IOException e) {
+      throw new IllegalArgumentException(
+          "Could not find or open file " + args[0] + System.lineSeparator()
+              + "This game expects a path to a file as its only argument. "
+              + "Create a properties file (an example should have been supplied in the "
+              + "submission), and then call the program as follows:" + System.lineSeparator() +
+              "java MyConnectN \"path/to/config.properties\""
+      );
+    }
   }
 
 }
