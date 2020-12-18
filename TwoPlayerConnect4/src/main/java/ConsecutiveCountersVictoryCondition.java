@@ -21,6 +21,11 @@ public class ConsecutiveCountersVictoryCondition implements VictoryCondition {
     this.consecutiveCountersRequired = consecutiveCountersRequired;
   }
 
+  @Override
+  public String toString() {
+    return "4 counters in a row";
+  }
+
   public int getConsecutiveCountersRequired() {
     return consecutiveCountersRequired;
   }

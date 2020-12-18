@@ -131,11 +131,15 @@ public class Board implements PrintableObject, Copyable<Board> {
             .map(player -> player.getColour().getIcon())
             .orElse(' ');
         // Print the icon, separated by a pipe
-        ioHandler.print("| " + icon + " ");
+        ioHandler.print("| " + icon + " ".repeat(getColumnWidthExcludingPadding()));
       }
       // Print the pipe at the end of the row
       ioHandler.printLine("|");
     }
+  }
+
+  private int getColumnWidthExcludingPadding() {
+    return Integer.toString(width).length();
   }
 
   /**
@@ -146,7 +150,8 @@ public class Board implements PrintableObject, Copyable<Board> {
   private void printColumnNumbers(IOHandler ioHandler) {
     // Print the column numbers
     for (int columnNumber = 1; columnNumber <= width; columnNumber++) {
-      ioHandler.print("| " + columnNumber + " ");
+      String columnNumberText = Integer.toString(columnNumber);
+      ioHandler.print("| " + columnNumberText + " ".repeat(getColumnWidthExcludingPadding() + 1 - columnNumberText.length()));
     }
 
     // Print the pipe at the end of the row
