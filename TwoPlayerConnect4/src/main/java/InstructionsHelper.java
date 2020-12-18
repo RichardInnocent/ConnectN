@@ -12,7 +12,7 @@ public class InstructionsHelper {
    */
   public static void displayInstructions(Collection<Player> players, IOHandler ioHandler) {
     ioHandler.printLine("Welcome to Connect 4!");
-    ioHandler.printf("There are %d players:" + System.lineSeparator(), players.size());
+    ioHandler.printf("There are %d players:%s", players.size(), System.lineSeparator());
     printPlayersAndVictoryConditions(players, ioHandler);
 
     if (players.stream().anyMatch(Player::isHuman)) {
