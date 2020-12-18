@@ -6,6 +6,9 @@ import java.util.Properties;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * Holds the specification for the game.
+ */
 public class GameConfig {
 
   private static final String BOARD_WIDTH_KEY = "board.width";
@@ -21,29 +24,54 @@ public class GameConfig {
   private final BoardConfiguration boardConfiguration;
   private final List<PlayerConfiguration> playerConfigurations;
 
-  public GameConfig(Properties properties) {
+  /**
+   * Creates a new game configuration based on the specified properties.
+   * @param properties The properties to build the game configuration from.
+   * @throws NullPointerException Thrown if {@code properties == null}.
+   */
+  public GameConfig(Properties properties) throws NullPointerException {
     PropertiesReader propertiesReader = new PropertiesReader(properties);
     this.boardConfiguration = createBoardConfiguration(propertiesReader);
     this.playerConfigurations = createPlayerConfigurations(propertiesReader);
   }
 
+  /**
+   * Gets the specification for the game board.
+   * @return The specification for the game board.
+   */
   public BoardConfiguration getBoardConfiguration() {
     return boardConfiguration;
   }
 
+  /**
+   * Gets the specifications for each player.
+   * @return The specifications for each player.
+   */
   public List<PlayerConfiguration> getPlayerConfigurations() {
     return new ArrayList<>(playerConfigurations);
   }
 
   private BoardConfiguration createBoardConfiguration(PropertiesReader propertiesReader) {
+    // If the properties aren't specified, set them to the default (a 6x7 board)
     int width = propertiesReader.getInteger(BOARD_WIDTH_KEY).orElse(6);
     int height = propertiesReader.getInteger(BOARD_HEIGHT_KEY).orElse(7);
     return BoardConfiguration.forDimensions(new Dimensions(width, height));
   }
 
+  /**
+   * Creates the configuration for the players. The number of players created is determined by the
+   * value specified in the {@code players.number} value (which defaults to 2 if not specified).
+   * Any additional players specified in the config file are ignored, so, for example, if the
+   * configuration specifies {@code players.number=3}, any configuration relating to {@code player4}
+   * would be ignored.
+   * @param propertiesReader The mechanism for reading the properties.
+   * @return The player specifications.
+   * @throws RuntimeException Thrown if the configuration for the player is invalid.
+   */
   private List<PlayerConfiguration> createPlayerConfigurations(PropertiesReader propertiesReader) {
     int numberOfPlayers = getNumberOfPlayers(propertiesReader);
 
+    // Loop through each player and create their configuration as specified in the config
     List<PlayerConfiguration.Builder> playerConfigBuilders =
         IntStream
             .range(1, numberOfPlayers+1)
@@ -55,88 +83,129 @@ public class GameConfig {
             )
             .collect(Collectors.toList());
 
+    // Complete the player configurations and build them
     List<PlayerConfiguration> playerConfigurations =
         createPlayerConfigurations(playerConfigBuilders, propertiesReader);
 
+    // Ensure the player victory conditions specified are valid, e.g. is it theoretically possible
+    // for them to achieve victory on a board of this size?
     validatePlayerVictoryConditions(playerConfigurations);
 
     return playerConfigurations;
   }
 
+  /**
+   * Gets the number of players in the config, or 2 if not specified.
+   * @param propertiesReader The mechanism for retrieving values from the configuration file.
+   * @return The number of players in the game.
+   * @throws InvalidConfigurationException Thrown if the number of players has been incorrectly
+   * specified, or if there aren't enough colours to support the number of players specified.
+   */
   private int getNumberOfPlayers(PropertiesReader propertiesReader)
-      throws InvalidConfigurationException {
+      throws RuntimeException {
     int minPlayers = 2;
     int maxPlayers = PlayerColour.values().length;
 
     int numberOfPlayers = propertiesReader.getInteger(NUMBER_OF_PLAYERS_KEY).orElse(minPlayers);
 
     if (numberOfPlayers < minPlayers || numberOfPlayers > maxPlayers) {
-      throw new IllegalArgumentException(
+      throw new InvalidConfigurationException(
           "Illegal number of players - number of players must be between " + minPlayers + " and "
-              + maxPlayers + " (inclusive)"
+              + maxPlayers + " (inclusive) on a board of size " + boardConfiguration.getDimensions()
       );
     }
 
     return numberOfPlayers;
   }
 
+  /**
+   * Creates the player configurations. Note that this only returns a builder instance as the
+   * returned player configurations are likely to be incomplete. For example, there's no
+   * requirement that the config file specifies every players' colour. In this case, players that
+   * have a received an explicit colour will have it added to their specification in this method.
+   * The remaining players should have their colours allocated depending on the remaining available
+   * colours after this method has been invoked.
+   * @param playerNumber The player number (player 1 is the first player).
+   * @param propertiesReader The instance used to retrieve values from the properties file.
+   * @return The (potentially incomplete) configuration for a player.
+   * @throws RuntimeException Thrown if the one or more values have been incorrectly specified in
+   * the properties file.
+   */
   private PlayerConfiguration.Builder createPlayerConfigurationBuilder(
       int playerNumber,
-      PropertiesReader propertiesReader) {
-    String nameInConfig = "player" + playerNumber;
+      PropertiesReader propertiesReader) throws RuntimeException {
+    // The prefix is playerN, where N is the player number
+    String playerPrefix = "player" + playerNumber;
 
     PlayerConfiguration.Builder configBuilder = PlayerConfiguration.builder();
 
-    getPlayerColour(nameInConfig + PLAYER_COLOUR_KEY_SUFFIX, propertiesReader)
+    // If the player has a colour specified, add it the specification
+    getPlayerColour(playerPrefix + PLAYER_COLOUR_KEY_SUFFIX, propertiesReader)
         .ifPresent(configBuilder::setColour);
 
-    propertiesReader.getBoolean(nameInConfig + PLAYER_AI_SUFFIX)
+    // If the player is designated as a human/computer player, add it the specification
+    propertiesReader.getBoolean(playerPrefix + PLAYER_AI_SUFFIX)
                     .ifPresent(configBuilder::setComputerPlayer);
 
-    getDifficulty(nameInConfig + PLAYER_AI_DIFFICULTY_SUFFIX, propertiesReader)
+    // If the player has a difficulty specified, add it the specification
+    getDifficulty(playerPrefix + PLAYER_AI_DIFFICULTY_SUFFIX, propertiesReader)
         .ifPresent(configBuilder::setDifficulty);
 
+    // If the player has a victory condition specified, add it to the specification
     getConsecutiveCounterVictoryCondition(
-        nameInConfig + PLAYER_VICTORY_COUNTERS_SUFFIX, propertiesReader)
+        playerPrefix + PLAYER_VICTORY_COUNTERS_SUFFIX, propertiesReader)
         .ifPresent(configBuilder::setVictoryCondition);
 
     return configBuilder;
   }
 
-  private Optional<PlayerColour> getPlayerColour(String key, PropertiesReader propertiesReader) {
-    return propertiesReader.get(key, PlayerColour::valueOf);
-  }
-
-  private Optional<Difficulty> getDifficulty(String key, PropertiesReader propertiesReader) {
-    return propertiesReader.get(key, Difficulty::fromName);
-  }
-
-  private Optional<ConsecutiveCountersVictoryCondition> getConsecutiveCounterVictoryCondition(
-      String key, PropertiesReader propertiesReader) {
-    return propertiesReader.getInteger(key).map(ConsecutiveCountersVictoryCondition::new);
-  }
-
+  /**
+   * Takes the existing player configurations as they were specified in the properties file,
+   * completes them (e.g. adding a colour or a difficulty if not previously specified), and builds
+   * the configurations.
+   * @param configBuilders The player configurations as specified in the properties file.
+   * @param propertiesReader The instance used to read properties (used to read the default values).
+   * @return Completed player configurations.
+   * @throws RuntimeException Thrown if the default difficulty or victory condition are incorrectly
+   * specified in the properties file, or if two or more players share a colour in the
+   * configuration.
+   */
   private List<PlayerConfiguration> createPlayerConfigurations(
-      List<PlayerConfiguration.Builder> configBuilders, PropertiesReader propertiesReader) {
+      List<PlayerConfiguration.Builder> configBuilders, PropertiesReader propertiesReader)
+      throws RuntimeException {
+
+    // Get the default difficulty that should be used when no difficulty has been specified
     Difficulty defaultDifficulty =
         getDifficulty(AI_DIFFICULTY_KEY, propertiesReader).orElse(Difficulty.MODERATE);
 
+    // Gets the default victory condition that should be used when no victory condition has been
+    // specified
     ConsecutiveCountersVictoryCondition defaultVictoryCondition =
         getConsecutiveCounterVictoryCondition(VICTORY_COUNTERS, propertiesReader)
             .orElse(new ConsecutiveCountersVictoryCondition(4));
 
+    // Get a list of all colours that are available - we can use this to check for duplicate colours
+    // and assign spare colours to player configurations with no colour
     List<PlayerColour> availableColours = new ArrayList<>(Arrays.asList(PlayerColour.values()));
+
+    // Count the number of human players specified. While players should default to computer
+    // players, make sure that at least one of them is human unless the config states explicitly
+    // that they should all be computer.
     int numberOfHumanPlayers = 0;
 
+    // Loop through each player, updating the available colours and the number of human players
     for (int playerNumber = 1; playerNumber < configBuilders.size(); playerNumber++) {
       PlayerConfiguration.Builder configBuilder = configBuilders.get(playerNumber-1);
       if (configBuilder.getComputerPlayer() != null && !configBuilder.getComputerPlayer()) {
         numberOfHumanPlayers++;
       }
+
       PlayerColour colour = configBuilder.getColour();
       if (colour != null) {
+        // Player config has its colour stated explicitly - will this produce duplicates?
         if (!availableColours.remove(colour)) {
-          throw new IllegalArgumentException(
+          // Colour is a duplicate - how would we tell the counters apart on the board?
+          throw new InvalidConfigurationException(
               "Player " + playerNumber + " cannot use colour " + colour
                   + " as this colour is already in use"
           );
@@ -144,11 +213,12 @@ public class GameConfig {
       }
     }
 
+    // Complete the player configurations, adding a colour and difficulty etc
     for (PlayerConfiguration.Builder configBuilder : configBuilders) {
       // Always endeavour to have at least one human player, unless specified by config
       if (numberOfHumanPlayers == 0 && configBuilder.getComputerPlayer() == null) {
         configBuilder.setComputerPlayer(false);
-        numberOfHumanPlayers++;
+        numberOfHumanPlayers++; // Make sure we don't turn the next player into a human too!
       }
       if (configBuilder.getVictoryCondition() == null) {
         configBuilder.setVictoryCondition(defaultVictoryCondition);
@@ -157,8 +227,7 @@ public class GameConfig {
         configBuilder.setDifficulty(defaultDifficulty);
       }
       if (configBuilder.getColour() == null) {
-        configBuilder.setColour(availableColours.get(0));
-        availableColours.remove(0);
+        configBuilder.setColour(availableColours.remove(0));
       }
     }
 
@@ -168,24 +237,67 @@ public class GameConfig {
         .collect(Collectors.toList());
   }
 
-  private void validatePlayerVictoryConditions(List<PlayerConfiguration> playerConfigurations) {
+  /**
+   * <p>Checks that the player victory conditions are possible - a player can't connect 5 in a row
+   * on a 3x3 board! Check that the number of consecutive counters doesn't exceed the minimum
+   * dimension on the board.</p>
+   * <p>It's theoretically possible to validate against the largest dimension as it's still possible
+   * to connect 7 in a row on a 6x7 board. However, this is part of the coursework spec and
+   * shouldn't be added as a special case.</p>
+   * @param playerConfigurations The player configurations.
+   * @throws InvalidConfigurationException Thrown if configuration for any of the players is
+   * impossible.
+   */
+  private void validatePlayerVictoryConditions(List<PlayerConfiguration> playerConfigurations)
+      throws InvalidConfigurationException {
     Dimensions boardDimensions = boardConfiguration.getDimensions();
 
-    // We could theoretically validate against the largest dimension as it's possible still possible
-    // to connect 7 in a row on a 6x7 board. However, I don't want to add in a special case to meet
-    // the coursework guidelines of a max of 6 on a standard-sized board.
     int smallestDimension = Math.min(boardDimensions.getWidth(), boardDimensions.getHeight());
 
     for (PlayerConfiguration playerConfiguration : playerConfigurations) {
+      // This only applies to ConsecutiveCountersVictoryConditions
       if (playerConfiguration.getVictoryCondition() instanceof ConsecutiveCountersVictoryCondition) {
         ConsecutiveCountersVictoryCondition victoryCondition =
             (ConsecutiveCountersVictoryCondition) playerConfiguration.getVictoryCondition();
+        // Is the victory condition possible?
         if (victoryCondition.getConsecutiveCountersRequired() > smallestDimension) {
-          throw new IllegalArgumentException(
+          // No! The configuration is invalid.
+          throw new InvalidConfigurationException(
               "Consecutive counters required cannot be > " + smallestDimension);
         }
       }
     }
+  }
+
+  /**
+   * Gets the player colour that corresponds to the value for the given key.
+   * @param key The key.
+   * @param propertiesReader The instance used to read values from the properties file.
+   * @return A player colour, or an empty optional if no colour has been specified.
+   */
+  private Optional<PlayerColour> getPlayerColour(String key, PropertiesReader propertiesReader) {
+    return propertiesReader.get(key, PlayerColour::valueOf);
+  }
+
+  /**
+   * Gets the difficulty that corresponds to the value for the given key.
+   * @param key The key.
+   * @param propertiesReader The instance used to read values from the properties file.
+   * @return A difficulty, or an empty optional if no difficulty has been specified.
+   */
+  private Optional<Difficulty> getDifficulty(String key, PropertiesReader propertiesReader) {
+    return propertiesReader.get(key, Difficulty::fromName);
+  }
+
+  /**
+   * Gets a victory condition where the player must connect a number of consecutive counters.
+   * @param key The key.
+   * @param propertiesReader The instance used to read values from the properties file.
+   * @return A victory condition, or an empty optional if no victory condition has been specified.
+   */
+  private Optional<ConsecutiveCountersVictoryCondition> getConsecutiveCounterVictoryCondition(
+      String key, PropertiesReader propertiesReader) {
+    return propertiesReader.getInteger(key).map(ConsecutiveCountersVictoryCondition::new);
   }
 
 }
