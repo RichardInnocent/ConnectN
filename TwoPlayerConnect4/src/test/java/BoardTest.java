@@ -11,12 +11,12 @@ public class BoardTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testWidthOfBoardCannotBeLessThan3() {
-    new Board(2, 10);
+    new Board(BoardConfiguration.forDimensions(new Dimensions(2, 5)));
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testHeightOfBoardCannotBeLessThan3() {
-    new Board(10, 2);
+    new Board(BoardConfiguration.forDimensions(new Dimensions(5, 2)));
   }
 
   @Test
@@ -24,7 +24,7 @@ public class BoardTest {
     int width = 6;
     int height = 7;
 
-    Board board = new Board(width, height);
+    Board board = new Board(BoardConfiguration.forDimensions(new Dimensions(width, height)));
     assertEquals(width, board.getWidth());
     assertEquals(height, board.getHeight());
     assertFalse(board.isFull());
@@ -38,7 +38,7 @@ public class BoardTest {
 
   @Test
   public void testCannotPlaceCounterOutsideOfRange() {
-    Board board = new Board(5, 3);
+    Board board = new Board(BoardConfiguration.forDimensions(new Dimensions(5, 3)));
     Player player = mock(Player.class);
 
     try {
@@ -72,7 +72,7 @@ public class BoardTest {
     Player player1 = mock(Player.class);
     Player player2 = mock(Player.class);
 
-    Board board = new Board(3, 3);
+    Board board = new Board(BoardConfiguration.forDimensions(new Dimensions(3, 3)));
     board.placePlayerCounterInColumn(player1, 1);
     verifyPlayerCounterIsAtPosition(board, player1, 1, 1);
 

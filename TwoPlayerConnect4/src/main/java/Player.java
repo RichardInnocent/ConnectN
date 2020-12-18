@@ -1,3 +1,6 @@
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Represents a player in the game of Connect 4. This can be either a human or computer player.
  */
@@ -17,10 +20,22 @@ public interface Player {
    */
   PlayerColour getColour();
 
+  VictoryCondition getVictoryCondition();
+
   /**
    * Returns {@code true} if the player is controlled by a human.
    * @return {@code true} if the player is controlled by a human.
    */
   boolean isHuman();
+
+  boolean isVictoryAchieved(Board board);
+
+  static Player create(PlayerConfiguration config) {
+    if (config.isComputerPlayer()) {
+      return new AIPlayer(config.getColour(), config.getDifficulty(), config.getVictoryCondition());
+    } else {
+      return new HumanPlayer(config.getColour(), config.getVictoryCondition());
+    }
+  }
 
 }

@@ -8,19 +8,28 @@ import java.util.Objects;
 public abstract class AbstractPlayer implements Player {
 
   private final PlayerColour colour;
+  private final VictoryCondition victoryCondition;
 
   /**
    * Creates a player with the given player colour.
    * @param colour The colour that will be used to refer to the player.
    * @throws NullPointerException Thrown if {@code colour == null}.
    */
-  protected AbstractPlayer(PlayerColour colour) throws NullPointerException {
-    this.colour = Objects.requireNonNull(colour);
+  protected AbstractPlayer(
+      PlayerColour colour, VictoryCondition victoryCondition) throws NullPointerException {
+    this.colour = Objects.requireNonNull(colour, "Colour is null");
+    this.victoryCondition =
+        Objects.requireNonNull(victoryCondition, "Victory condition is null");
   }
 
   @Override
   public PlayerColour getColour() {
     return colour;
+  }
+
+  @Override
+  public VictoryCondition getVictoryCondition() {
+    return victoryCondition;
   }
 
   @Override
@@ -37,6 +46,16 @@ public abstract class AbstractPlayer implements Player {
    * such that {@link Board#isFull()} is {@code true}.
    */
   protected abstract void takeTurnOnIncompleteBoard(Board board, IOHandler ioHandler);
+
+  @Override
+  public boolean isVictoryAchieved(Board board) {
+    return victoryCondition.isAchievedForPlayer(this, board);
+  }
+
+  @Override
+  public String toString() {
+    return getColour().getName();
+  }
 
   @Override
   public boolean equals(Object o) {

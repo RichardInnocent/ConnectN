@@ -8,10 +8,12 @@ public class HumanPlayer extends AbstractPlayer {
   /**
    * Creates a player on the board that is controlled by a person, not a computer.
    * @param colour The player colour.
-   * @throws NullPointerException Thrown if {@code colour == null}.
+   * @throws NullPointerException Thrown if {@code colour == null} or
+   * {@code victoryCondition == null}.
    */
-  public HumanPlayer(PlayerColour colour) throws NullPointerException {
-    super(colour);
+  public HumanPlayer(PlayerColour colour, VictoryCondition victoryCondition)
+      throws NullPointerException {
+    super(colour, victoryCondition);
   }
 
   @Override

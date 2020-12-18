@@ -2,9 +2,9 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.Collections;
 import java.util.Optional;
 import java.util.Random;
+import org.junit.Before;
 import org.junit.Test;
 
 public class CheckOneTurnWinConditionStrategyTest {
@@ -12,14 +12,20 @@ public class CheckOneTurnWinConditionStrategyTest {
   private final IOHandler ioHandler = mock(IOHandler.class);
   private final Random random = mock(Random.class);
   private final VictoryCondition victoryCondition = new ConsecutiveCountersVictoryCondition(4);
+  private final Difficulty difficulty = mock(Difficulty.class);
   private final AIStrategy strategy =
-      new CheckOneTurnWinConditionStrategy(Collections.singleton(victoryCondition), random);
-  private final Player aiPlayer = new AIPlayer(PlayerColour.RED, strategy);
-  private final Player otherPlayer = new AIPlayer(PlayerColour.BLUE, new RandomPlacementStrategy());
+      new CheckOneTurnWinConditionStrategy(victoryCondition, random);
+  private final Player aiPlayer = new AIPlayer(PlayerColour.RED, difficulty, victoryCondition);
+  private final Player otherPlayer = new AIPlayer(PlayerColour.BLUE, difficulty, victoryCondition);
+
+  @Before
+  public void configureDifficulty() {
+    when(difficulty.getStrategy(victoryCondition)).thenReturn(strategy);
+  }
 
   @Test
   public void testPicksRandomSlotIfBoardIsEmpty() {
-    Board board = new Board(6, 7);
+    Board board = new Board(BoardConfiguration.forDimensions(new Dimensions(6, 7)));
     when(random.nextInt(6)).thenReturn(0);
     aiPlayer.takeTurn(board, ioHandler);
     Optional<Player> player = board.getOwnerOfCounterAt(1, 1);
@@ -179,7 +185,12 @@ public class CheckOneTurnWinConditionStrategyTest {
 
   private Board createBoard(String boardAsText) {
     String[] boardLines = boardAsText.split("\n");
-    Board board = new Board(boardLines[0].length(), boardLines.length);
+    Board board =
+        new Board(
+            BoardConfiguration.forDimensions(
+                new Dimensions(boardLines[0].length(), boardLines.length)
+            )
+        );
     for (int i = boardLines.length-1; i >= 0; i--) {
       for (int charIndex = 0; charIndex < boardLines[i].length(); charIndex++) {
         if (boardLines[i].charAt(charIndex) == 'A') {

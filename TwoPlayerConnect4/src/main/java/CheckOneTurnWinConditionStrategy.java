@@ -1,4 +1,3 @@
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -11,30 +10,30 @@ import java.util.Random;
  */
 public class CheckOneTurnWinConditionStrategy implements AIStrategy {
 
-  private final Collection<VictoryCondition> victoryConditions;
+  private final VictoryCondition victoryCondition;
   private final Random random;
 
   /**
    * Creates a new one turn win condition strategy, optimising for the given win conditions.
-   * @param victoryConditions The victory conditions to optimise for.
+   * @param victoryCondition The victory condition to optimise for.
    * @throws NullPointerException Thrown if {@code victoryConditions == null}.
    */
-  public CheckOneTurnWinConditionStrategy(Collection<VictoryCondition> victoryConditions)
+  public CheckOneTurnWinConditionStrategy(VictoryCondition victoryCondition)
       throws NullPointerException {
-    this(victoryConditions, new Random());
+    this(victoryCondition, new Random());
   }
 
   /**
    * Creates a new one turn win condition strategy, optimising for the given win conditions.
-   * @param victoryConditions The victory conditions to optimise for.
+   * @param victoryCondition The victory conditions to optimise for.
    * @param random The random instance used when taking a random move.
    * @throws NullPointerException Thrown if {@code victoryConditions == null} or
    * {@code random == null}.
    */
-  CheckOneTurnWinConditionStrategy(Collection<VictoryCondition> victoryConditions, Random random)
+  CheckOneTurnWinConditionStrategy(VictoryCondition victoryCondition, Random random)
       throws NullPointerException {
-    this.victoryConditions =
-        Objects.requireNonNull(victoryConditions, "Victory condition collection is null");
+    this.victoryCondition =
+        Objects.requireNonNull(victoryCondition, "Victory condition collection is null");
     this.random = Objects.requireNonNull(random, "Random is null");
   }
 
@@ -77,10 +76,8 @@ public class CheckOneTurnWinConditionStrategy implements AIStrategy {
   private boolean isWinningMove(Board board, Player player, int column) {
     Board copyOfBoard = board.copy();
     copyOfBoard.placePlayerCounterInColumn(player, column);
-    for (VictoryCondition victoryCondition : victoryConditions) {
-      if (victoryCondition.isAchievedForPlayer(player, copyOfBoard)) {
-        return true;
-      }
+    if (victoryCondition.isAchievedForPlayer(player, copyOfBoard)) {
+      return true;
     }
     return false;
   }

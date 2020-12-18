@@ -7,7 +7,20 @@ public class AbstractPlayerTest {
 
   @Test(expected = NullPointerException.class)
   public void constructor_ColourIsNull_ExceptionThrown() {
-    new AbstractPlayer(null) {
+    new AbstractPlayer(null, mock(VictoryCondition.class)) {
+      @Override
+      public void takeTurnOnIncompleteBoard(Board board, IOHandler ioHandler) {}
+
+      @Override
+      public boolean isHuman() {
+        return false;
+      }
+    };
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void constructor_VictoryConditionIsNull_ExceptionThrown() {
+    new AbstractPlayer(PlayerColour.CYAN, null) {
       @Override
       public void takeTurnOnIncompleteBoard(Board board, IOHandler ioHandler) {}
 
@@ -19,9 +32,10 @@ public class AbstractPlayerTest {
   }
 
   @Test
-  public void constructor_ColourIsValid_ColourSet() {
+  public void constructor_ParametersAreValid_ParametersSet() {
     PlayerColour colour = PlayerColour.CYAN;
-    Player player = new AbstractPlayer(colour) {
+    VictoryCondition victoryCondition = mock(VictoryCondition.class);
+    Player player = new AbstractPlayer(colour, victoryCondition) {
       @Override
       public void takeTurnOnIncompleteBoard(Board board, IOHandler ioHandler) {}
 
@@ -31,11 +45,12 @@ public class AbstractPlayerTest {
       }
     };
     assertEquals(colour, player.getColour());
+    assertEquals(victoryCondition, player.getVictoryCondition());
   }
 
   @Test(expected = BoardFullException.class)
   public void takeTurn_FullBoard_ExceptionThrown() {
-    Player player = new AbstractPlayer(PlayerColour.CYAN) {
+    Player player = new AbstractPlayer(PlayerColour.CYAN, mock(VictoryCondition.class)) {
       @Override
       protected void takeTurnOnIncompleteBoard(Board board, IOHandler ioHandler) {}
 
@@ -52,7 +67,7 @@ public class AbstractPlayerTest {
   @Test
   public void takeTurn_IncompleteBoard_TurnTaken() {
     int columnNumber = 1;
-    Player player = new AbstractPlayer(PlayerColour.CYAN) {
+    Player player = new AbstractPlayer(PlayerColour.CYAN, mock(VictoryCondition.class)) {
       @Override
       protected void takeTurnOnIncompleteBoard(Board board, IOHandler ioHandler) {
         board.placePlayerCounterInColumn(this, columnNumber);

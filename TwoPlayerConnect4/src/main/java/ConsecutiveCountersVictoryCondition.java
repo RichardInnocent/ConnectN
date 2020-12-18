@@ -15,7 +15,14 @@ public class ConsecutiveCountersVictoryCondition implements VictoryCondition {
    * victory.
    */
   public ConsecutiveCountersVictoryCondition(int consecutiveCountersRequired) {
+    if (consecutiveCountersRequired < 1) {
+      throw new IllegalArgumentException("Consecutive counters must be > 0");
+    }
     this.consecutiveCountersRequired = consecutiveCountersRequired;
+  }
+
+  public int getConsecutiveCountersRequired() {
+    return consecutiveCountersRequired;
   }
 
   @Override

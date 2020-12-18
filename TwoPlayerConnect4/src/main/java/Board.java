@@ -17,20 +17,19 @@ public class Board implements PrintableObject, Copyable<Board> {
 
   /**
    * Creates a new game board.
-   * @param width The width of the board, i.e. the number of columns.
-   * @param height The height of the board, i.e. the number of counters that can be stacked on top
-   * of one another before the column is full.
+   * @param configuration The configuration of the board.
    * @throws IllegalArgumentException Thrown if {@code width < 3} or {@code height < 3}.
    */
-  public Board(int width, int height) throws IllegalArgumentException {
-    if (width < 3) {
+  public Board(BoardConfiguration configuration) throws IllegalArgumentException {
+    Dimensions dimensions = configuration.getDimensions();
+    if (dimensions.getWidth() < 3) {
       throw new IllegalArgumentException("Height of board cannot be less than 3");
     }
-    if (height < 3) {
+    if (dimensions.getHeight() < 3) {
       throw new IllegalArgumentException("Width of board cannot be less than 3");
     }
-    this.width = width;
-    this.height = height;
+    this.width = dimensions.getWidth();
+    this.height = dimensions.getHeight();
     this.columns = new Column[width];
     populateColumns(height);
   }

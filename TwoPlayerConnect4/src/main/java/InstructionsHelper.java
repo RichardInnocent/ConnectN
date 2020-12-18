@@ -24,22 +24,9 @@ public class InstructionsHelper {
    */
   private static void printPlayers(Collection<Player> players, IOHandler ioHandler) {
     players.stream()
-           .map(InstructionsHelper::getBasicPlayerRepresentation)
+           .map(Object::toString)
            .map(playerRep -> "- " + playerRep)
            .forEach(ioHandler::printLine);
-  }
-
-  /**
-   * Gets a basic representation of a player. We could have used {@link Player#toString()}, although
-   * this mean that changing the {@code toString} implementation in a class could have unforeseen
-   * consequences (e.g. changing the introduction text).
-   */
-  private static String getBasicPlayerRepresentation(Player player) {
-    String basicRepresentation = player.getColour().getName();
-    if (!player.isHuman()) {
-      basicRepresentation += " (Computer)";
-    }
-    return basicRepresentation;
   }
 
 }

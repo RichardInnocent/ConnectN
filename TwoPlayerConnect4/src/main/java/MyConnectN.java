@@ -1,32 +1,38 @@
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.Properties;
+import java.util.stream.Collectors;
 
 public class MyConnectN {
 
-  public static void main(String[] args){
-    new MyConnectN().playGame();
+  public static void main(String[] args) throws IOException {
+    Properties properties = new Properties();
+    if (args.length > 0) {
+      properties.load(new FileInputStream(args[0]));
+    }
+    new MyConnectN(properties).playGame();
   }
 
-  private final Board board = new Board(6, 7);
+  private final Board board;
   private final Collection<Player> players;
-  private final VictoryCondition victoryCondition = new ConsecutiveCountersVictoryCondition(4);
   private final IOHandler ioHandler;
 
-  public MyConnectN() {
-    this(System.in, System.out);
+  public MyConnectN(Properties properties) {
+    this(properties, System.in, System.out);
   }
 
-  public MyConnectN(InputStream inputStream, PrintStream outputStream) {
+  public MyConnectN(Properties properties, InputStream inputStream, PrintStream outputStream) {
     this.ioHandler = new SingleSourceIOHandler(inputStream, outputStream);
-    AIStrategy strategy =
-        new CheckOneTurnWinConditionStrategy(Collections.singleton(victoryCondition));
-    players = Arrays.asList(
-        new HumanPlayer(PlayerColour.RED),
-        new AIPlayer(PlayerColour.YELLOW, strategy)
-    );
+    GameConfig gameConfig = new GameConfig(properties);
+    board = new Board(gameConfig.getBoardConfiguration());
+    players = gameConfig
+        .getPlayerConfigurations()
+        .stream()
+        .map(Player::create)
+        .collect(Collectors.toList());
   }
 
   public void playGame() {
@@ -38,7 +44,7 @@ public class MyConnectN {
         player.takeTurn(board, ioHandler);
         board.printToConsole(ioHandler);
 
-        if (victoryCondition.isAchievedForPlayer(player, board)) {
+        if (player.isVictoryAchieved(board)) {
           ioHandler.printLine(player.getColour().getName() + " player wins!");
           return;
         } else if (board.isFull()) {

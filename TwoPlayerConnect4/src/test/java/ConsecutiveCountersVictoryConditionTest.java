@@ -256,7 +256,12 @@ public class ConsecutiveCountersVictoryConditionTest {
 
   private Board createBoard(String boardAsText) {
     String[] rows = boardAsText.split("\n");
-    Board board = new Board(rows[rows.length-1].length(), rows.length);
+    Board board =
+        new Board(
+            BoardConfiguration.forDimensions(
+                new Dimensions(rows[rows.length-1].length(), rows.length)
+            )
+        );
 
     for (int rowIndex = rows.length-1; rowIndex >= 0; rowIndex--) {
       String row = rows[rowIndex];
