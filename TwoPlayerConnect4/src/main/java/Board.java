@@ -113,6 +113,7 @@ public class Board implements PrintableObject, Copyable<Board> {
   @Override
   public void printToConsole(IOHandler ioHandler) {
     printBoard(ioHandler);
+    printSeparator(ioHandler);
     printColumnNumbers(ioHandler);
   }
 
@@ -142,6 +143,14 @@ public class Board implements PrintableObject, Copyable<Board> {
     return Integer.toString(width).length();
   }
 
+  private void printSeparator(IOHandler ioHandler) {
+    for (int columnNumber = 1; columnNumber <= width; columnNumber++) {
+      ioHandler.print("|" + "-".repeat(getColumnWidthExcludingPadding() + 2));
+    }
+    // Print the pipe at the end of the row
+    ioHandler.printLine("|");
+  }
+
   /**
    * Prints the column numbers of the board. This should be used in conjunction with
    * {@link #printBoard(IOHandler)}.
@@ -155,7 +164,7 @@ public class Board implements PrintableObject, Copyable<Board> {
     }
 
     // Print the pipe at the end of the row
-    ioHandler.printLine("|\n");
+    ioHandler.printLine("|");
   }
 
   /**

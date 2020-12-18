@@ -16,7 +16,9 @@ public class InstructionsHelper {
     printPlayersAndVictoryConditions(players, ioHandler);
 
     if (players.stream().anyMatch(Player::isHuman)) {
-      ioHandler.printLine("To play the game type in the number of the column you want to drop you counter in");
+      // Only print the instructions on how to play the game if there's a human player
+      ioHandler.printLine(
+          "\nTo play the game type in the number of the column you want to drop you counter in");
     }
     ioHandler.printLine();
   }
@@ -30,11 +32,12 @@ public class InstructionsHelper {
            .map(Object::toString)
            .map(playerRep -> "- " + playerRep)
            .forEach(ioHandler::printLine);
+    ioHandler.printLine();
     printVictoryConditions(players, ioHandler);
   }
 
   private static void printVictoryConditions(Collection<Player> players, IOHandler ioHandler) {
-    ioHandler.printLine("How to win:");
+    ioHandler.printLine("How each player wins:");
     players.forEach(
         player -> ioHandler.printLine(
             player.getColour().getName() + ": " + player.getVictoryCondition()
