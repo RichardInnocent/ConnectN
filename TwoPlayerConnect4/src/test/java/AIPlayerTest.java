@@ -40,8 +40,11 @@ public class AIPlayerTest {
   @Test
   public void testStrategyIsUsedWhenTakingTurn() {
     AIStrategy strategy = mock(AIStrategy.class);
+    Difficulty difficulty = mock(Difficulty.class);
+    VictoryCondition victoryCondition = mock(VictoryCondition.class);
+    when(difficulty.getStrategy(victoryCondition)).thenReturn(strategy);
     Board board = mock(Board.class);
-    Player player = new AIPlayer(PlayerColour.BLUE, Difficulty.EASY, mock(VictoryCondition.class));
+    Player player = new AIPlayer(PlayerColour.BLUE, difficulty, victoryCondition);
     player.takeTurn(board, mock(IOHandler.class));
     verify(strategy, times(1)).takeTurn(board, player);
   }
