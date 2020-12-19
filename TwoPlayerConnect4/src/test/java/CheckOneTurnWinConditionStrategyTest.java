@@ -36,8 +36,8 @@ public class CheckOneTurnWinConditionStrategyTest {
   @Test
   public void testPickWinningHorizontalSlotIfAvailable() {
     Board board = createBoard(
-        "     \n" +
-            "   OO\n" +
+        "     " + System.lineSeparator() +
+            "   OO" + System.lineSeparator() +
             "O AAA"
     );
     assertTrue(board.getOwnerOfCounterAt(1, 2).isEmpty());
@@ -50,8 +50,8 @@ public class CheckOneTurnWinConditionStrategyTest {
   @Test
   public void testBlocksWinningHorizontalSlotIfAvailable() {
     Board board = createBoard(
-        "     \n" +
-            "   AA\n" +
+        "     " + System.lineSeparator() +
+            "   AA" + System.lineSeparator() +
             "A OOO"
     );
     assertTrue(board.getOwnerOfCounterAt(1, 2).isEmpty());
@@ -64,8 +64,8 @@ public class CheckOneTurnWinConditionStrategyTest {
   @Test
   public void testPickWinningHorizontalSlotOnSecondRowIfAvailable() {
     Board board = createBoard(
-        "     \n" +
-            "AAA O\n" +
+        "     " + System.lineSeparator() +
+            "AAA O" + System.lineSeparator() +
             "OAOOO"
     );
     assertTrue(board.getOwnerOfCounterAt(2, 4).isEmpty());
@@ -78,8 +78,8 @@ public class CheckOneTurnWinConditionStrategyTest {
   @Test
   public void testBlocksWinningHorizontalSlotOnSecondRowIfAvailable() {
     Board board = createBoard(
-        "     \n" +
-            "OOO A\n" +
+        "     " + System.lineSeparator() +
+            "OOO A" + System.lineSeparator() +
             "AOAAA"
     );
     assertTrue(board.getOwnerOfCounterAt(2, 4).isEmpty());
@@ -91,10 +91,11 @@ public class CheckOneTurnWinConditionStrategyTest {
 
   @Test
   public void testPickWinningVerticalSlotIfAvailable() {
-    Board board = createBoard("   \n" +
-        "   \n" +
-        "A  \n" +
-        "A  \n" +
+    Board board = createBoard(
+        "   " + System.lineSeparator() +
+        "   " + System.lineSeparator() +
+        "A  " + System.lineSeparator() +
+        "A  " + System.lineSeparator() +
         "A  "
     );
     assertTrue(board.getOwnerOfCounterAt(4, 1).isEmpty());
@@ -106,10 +107,10 @@ public class CheckOneTurnWinConditionStrategyTest {
 
   @Test
   public void testBlocksWinningVerticalSlotIfAvailable() {
-    Board board = createBoard("   \n" +
-                                  "   \n" +
-                                  "O  \n" +
-                                  "O  \n" +
+    Board board = createBoard("   " + System.lineSeparator() +
+                                  "   " + System.lineSeparator() +
+                                  "O  " + System.lineSeparator() +
+                                  "O  " + System.lineSeparator() +
                                   "O  "
     );
     assertTrue(board.getOwnerOfCounterAt(4, 1).isEmpty());
@@ -122,10 +123,10 @@ public class CheckOneTurnWinConditionStrategyTest {
   @Test
   public void testPickWinningLeadingDiagonalSlotIfAvailable() {
     Board board = createBoard(
-        "     \n" +
-        "     \n" +
-        " OA  \n" +
-        " OOA \n" +
+        "     " + System.lineSeparator() +
+        "     " + System.lineSeparator() +
+        " OA  " + System.lineSeparator() +
+        " OOA " + System.lineSeparator() +
         " AOOA"
     );
     assertTrue(board.getOwnerOfCounterAt(4, 2).isEmpty());
@@ -138,10 +139,10 @@ public class CheckOneTurnWinConditionStrategyTest {
   @Test
   public void testBlocksWinningLeadingDiagonalSlotIfAvailable() {
     Board board = createBoard(
-        "     \n" +
-            "     \n" +
-            " AO  \n" +
-            " AAO \n" +
+        "     " + System.lineSeparator() +
+            "     " + System.lineSeparator() +
+            " AO  " + System.lineSeparator() +
+            " AAO " + System.lineSeparator() +
             " OAAO"
     );
     assertTrue(board.getOwnerOfCounterAt(4, 2).isEmpty());
@@ -154,10 +155,10 @@ public class CheckOneTurnWinConditionStrategyTest {
   @Test
   public void testPickWinningCounterdiagonalSlotIfAvailable() {
     Board board = createBoard(
-        "     \n" +
-            "     \n" +
-            "   AO\n" +
-            "  AOO\n" +
+        "     " + System.lineSeparator() +
+            "     " + System.lineSeparator() +
+            "   AO" + System.lineSeparator() +
+            "  AOO" + System.lineSeparator() +
             " AOOA"
     );
     assertTrue(board.getOwnerOfCounterAt(4, 5).isEmpty());
@@ -170,10 +171,10 @@ public class CheckOneTurnWinConditionStrategyTest {
   @Test
   public void testBlocksWinningCounterdiagonalSlotIfAvailable() {
     Board board = createBoard(
-        "     \n" +
-            "     \n" +
-            "   OA\n" +
-            "  OAA\n" +
+        "     " + System.lineSeparator() +
+            "     " + System.lineSeparator() +
+            "   OA" + System.lineSeparator() +
+            "  OAA" + System.lineSeparator() +
             " OAAO"
     );
     assertTrue(board.getOwnerOfCounterAt(4, 5).isEmpty());
@@ -184,7 +185,7 @@ public class CheckOneTurnWinConditionStrategyTest {
   }
 
   private Board createBoard(String boardAsText) {
-    String[] boardLines = boardAsText.split("\n");
+    String[] boardLines = boardAsText.split(System.lineSeparator());
     Board board =
         new Board(
             BoardConfiguration.forDimensions(

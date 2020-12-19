@@ -18,7 +18,9 @@ public class InstructionsHelper {
     if (players.stream().anyMatch(Player::isHuman)) {
       // Only print the instructions on how to play the game if there's a human player
       ioHandler.printLine(
-          "\nTo play the game type in the number of the column you want to drop you counter in");
+          System.lineSeparator() +
+              "To play the game type in the number of the column you want to drop you counter in"
+      );
     }
     ioHandler.printLine();
   }

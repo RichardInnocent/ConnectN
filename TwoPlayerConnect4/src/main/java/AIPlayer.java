@@ -22,10 +22,15 @@ public class AIPlayer extends AbstractPlayer {
     this.victoryCondition = Objects.requireNonNull(victoryCondition, "Victory condition is null");
   }
 
+  /**
+   * Gets the difficulty of the computer player
+   * @return The difficulty.
+   */
   public Difficulty getDifficulty() {
     return difficulty;
   }
 
+  @Override
   public VictoryCondition getVictoryCondition() {
     return victoryCondition;
   }

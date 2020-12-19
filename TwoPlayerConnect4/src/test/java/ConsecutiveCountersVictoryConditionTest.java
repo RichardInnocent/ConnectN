@@ -21,8 +21,8 @@ public class ConsecutiveCountersVictoryConditionTest {
   @Test
   public void testNoWin() {
     Board board = createBoard(
-        "xxx\n" +
-            "xxx\n" +
+        "xxx" + System.lineSeparator() +
+            "xxx" + System.lineSeparator() +
             "xxx"
     );
     assertFalse(VICTORY_CONDITION.isAchievedForPlayer(CHECKED_PLAYER, board));
@@ -31,8 +31,8 @@ public class ConsecutiveCountersVictoryConditionTest {
   @Test
   public void testHorizontalWinAtBottomLeft() {
     Board board = createBoard(
-        "     \n" +
-        "     \n" +
+        "     " + System.lineSeparator() +
+        "     " + System.lineSeparator() +
         "xxxx "
     );
     assertTrue(VICTORY_CONDITION.isAchievedForPlayer(CHECKED_PLAYER, board));
@@ -41,8 +41,8 @@ public class ConsecutiveCountersVictoryConditionTest {
   @Test
   public void testHorizontalWinAtBottomRight() {
     Board board = createBoard(
-        "     \n" +
-            "     \n" +
+        "     " + System.lineSeparator() +
+            "     " + System.lineSeparator() +
             " xxxx"
     );
     assertTrue(VICTORY_CONDITION.isAchievedForPlayer(CHECKED_PLAYER, board));
@@ -51,8 +51,8 @@ public class ConsecutiveCountersVictoryConditionTest {
   @Test
   public void testHorizontalWinAtTopLeft() {
     Board board = createBoard(
-        "xxxx \n" +
-            "     \n" +
+        "xxxx " + System.lineSeparator() +
+            "     " + System.lineSeparator() +
             "     "
     );
     assertTrue(VICTORY_CONDITION.isAchievedForPlayer(CHECKED_PLAYER, board));
@@ -61,8 +61,8 @@ public class ConsecutiveCountersVictoryConditionTest {
   @Test
   public void testHorizontalWinAtTopRight() {
     Board board = createBoard(
-        " xxxx\n" +
-            "     \n" +
+        " xxxx" + System.lineSeparator() +
+            "     " + System.lineSeparator() +
             "     "
     );
     assertTrue(VICTORY_CONDITION.isAchievedForPlayer(CHECKED_PLAYER, board));
@@ -71,8 +71,8 @@ public class ConsecutiveCountersVictoryConditionTest {
   @Test
   public void testHorizontalWinNotTriggeredByFlowingOntoNextRow() {
     Board board = createBoard(
-        "xx xx\n" +
-            "xx xx\n" +
+        "xx xx" + System.lineSeparator() +
+            "xx xx" + System.lineSeparator() +
             "xx xx"
     );
     assertFalse(VICTORY_CONDITION.isAchievedForPlayer(CHECKED_PLAYER, board));
@@ -81,11 +81,11 @@ public class ConsecutiveCountersVictoryConditionTest {
   @Test
   public void testVerticalWinAtBottomLeft() {
     Board board = createBoard(
-        "   \n" +
-            "x  \n" +
-            "x  \n" +
-            "x  \n" +
-            "x  \n"
+        "   " + System.lineSeparator() +
+            "x  " + System.lineSeparator() +
+            "x  " + System.lineSeparator() +
+            "x  " + System.lineSeparator() +
+            "x  "
     );
     assertTrue(VICTORY_CONDITION.isAchievedForPlayer(CHECKED_PLAYER, board));
   }
@@ -93,11 +93,11 @@ public class ConsecutiveCountersVictoryConditionTest {
   @Test
   public void testVerticalWinAtBottomRight() {
     Board board = createBoard(
-        "   \n" +
-            "  x\n" +
-            "  x\n" +
-            "  x\n" +
-            "  x\n"
+        "   " + System.lineSeparator() +
+            "  x" + System.lineSeparator() +
+            "  x" + System.lineSeparator() +
+            "  x" + System.lineSeparator() +
+            "  x"
     );
     assertTrue(VICTORY_CONDITION.isAchievedForPlayer(CHECKED_PLAYER, board));
   }
@@ -105,11 +105,11 @@ public class ConsecutiveCountersVictoryConditionTest {
   @Test
   public void testVerticalWinAtTopLeft() {
     Board board = createBoard(
-        "x  \n" +
-        "x  \n" +
-        "x  \n" +
-        "x  \n" +
-        "   \n"
+        "x  " + System.lineSeparator() +
+        "x  " + System.lineSeparator() +
+        "x  " + System.lineSeparator() +
+        "x  " + System.lineSeparator() +
+        "   "
     );
     assertTrue(VICTORY_CONDITION.isAchievedForPlayer(CHECKED_PLAYER, board));
   }
@@ -117,11 +117,11 @@ public class ConsecutiveCountersVictoryConditionTest {
   @Test
   public void testVerticalWinAtTopRight() {
     Board board = createBoard(
-        "  x\n" +
-        "  x\n" +
-        "  x\n" +
-        "  x\n" +
-        "   \n"
+        "  x" + System.lineSeparator() +
+        "  x" + System.lineSeparator() +
+        "  x" + System.lineSeparator() +
+        "  x" + System.lineSeparator() +
+        "   "
     );
     assertTrue(VICTORY_CONDITION.isAchievedForPlayer(CHECKED_PLAYER, board));
   }
@@ -129,11 +129,11 @@ public class ConsecutiveCountersVictoryConditionTest {
   @Test
   public void testVerticalWinNotTriggeredByFlowingOntoNextRow() {
     Board board = createBoard(
-        "x x\n" +
-            "x x\n" +
-            "   \n" +
-            "x x\n" +
-            "x x\n"
+        "x x" + System.lineSeparator() +
+            "x x" + System.lineSeparator() +
+            "   " + System.lineSeparator() +
+            "x x" + System.lineSeparator() +
+            "x x"
     );
     assertFalse(VICTORY_CONDITION.isAchievedForPlayer(CHECKED_PLAYER, board));
   }
@@ -141,10 +141,10 @@ public class ConsecutiveCountersVictoryConditionTest {
   @Test
   public void testLeadingDiagonalWinFromTopLeft() {
     Board board = createBoard(
-        "x    \n" +
-            " x   \n" +
-            "  x  \n" +
-            "   x \n" +
+        "x    " + System.lineSeparator() +
+            " x   " + System.lineSeparator() +
+            "  x  " + System.lineSeparator() +
+            "   x " + System.lineSeparator() +
             "     "
     );
     assertTrue(VICTORY_CONDITION.isAchievedForPlayer(CHECKED_PLAYER, board));
@@ -153,10 +153,10 @@ public class ConsecutiveCountersVictoryConditionTest {
   @Test
   public void testLeadingDiagonalWinFromBottomRight() {
     Board board = createBoard(
-        "     \n" +
-            " x   \n" +
-            "  x  \n" +
-            "   x \n" +
+        "     " + System.lineSeparator() +
+            " x   " + System.lineSeparator() +
+            "  x  " + System.lineSeparator() +
+            "   x " + System.lineSeparator() +
             "    x"
     );
     assertTrue(VICTORY_CONDITION.isAchievedForPlayer(CHECKED_PLAYER, board));
@@ -165,11 +165,11 @@ public class ConsecutiveCountersVictoryConditionTest {
   @Test
   public void testLeadingDiagonalWinFromBottomLeftMostPosition() {
     Board board = createBoard(
-        "     \n" +
-            "x    \n" +
-            " x   \n" +
-            "  x  \n" +
-            "   x \n"
+        "     " + System.lineSeparator() +
+            "x    " + System.lineSeparator() +
+            " x   " + System.lineSeparator() +
+            "  x  " + System.lineSeparator() +
+            "   x "
     );
     assertTrue(VICTORY_CONDITION.isAchievedForPlayer(CHECKED_PLAYER, board));
   }
@@ -177,11 +177,11 @@ public class ConsecutiveCountersVictoryConditionTest {
   @Test
   public void testLeadingDiagonalWinFromTopRightMostPosition() {
     Board board = createBoard(
-        " x   \n" +
-            "  x  \n" +
-            "   x \n" +
-            "    x\n" +
-            "     \n"
+        "x   " + System.lineSeparator() +
+            " x  " + System.lineSeparator() +
+            "  x " + System.lineSeparator() +
+            "   x" + System.lineSeparator() +
+            "    "
     );
     assertTrue(VICTORY_CONDITION.isAchievedForPlayer(CHECKED_PLAYER, board));
   }
@@ -189,9 +189,9 @@ public class ConsecutiveCountersVictoryConditionTest {
   @Test
   public void testLeadingDiagonalWinNotTriggeredByFlowingOver() {
     Board board = createBoard(
-        " xxx\n" +
-            "x xx\n" +
-            "xx x\n"
+        " xxx" + System.lineSeparator() +
+            "x xx" + System.lineSeparator() +
+            "xx x"
     );
     assertFalse(VICTORY_CONDITION.isAchievedForPlayer(CHECKED_PLAYER, board));
   }
@@ -199,10 +199,10 @@ public class ConsecutiveCountersVictoryConditionTest {
   @Test
   public void testCounterdiagonalWinFromBottomLeft() {
     Board board = createBoard(
-        "     \n" +
-            "   x \n" +
-            "  x  \n" +
-            " x   \n" +
+        "     " + System.lineSeparator() +
+            "   x " + System.lineSeparator() +
+            "  x  " + System.lineSeparator() +
+            " x   " + System.lineSeparator() +
             "x    "
     );
     assertTrue(VICTORY_CONDITION.isAchievedForPlayer(CHECKED_PLAYER, board));
@@ -211,10 +211,10 @@ public class ConsecutiveCountersVictoryConditionTest {
   @Test
   public void testCounterdiagonalWinFromTopRight() {
     Board board = createBoard(
-        "    x\n" +
-            "   x \n" +
-            "  x  \n" +
-            " x   \n" +
+        "    x" + System.lineSeparator() +
+            "   x " + System.lineSeparator() +
+            "  x  " + System.lineSeparator() +
+            " x   " + System.lineSeparator() +
             "     "
     );
     assertTrue(VICTORY_CONDITION.isAchievedForPlayer(CHECKED_PLAYER, board));
@@ -223,11 +223,11 @@ public class ConsecutiveCountersVictoryConditionTest {
   @Test
   public void testCounterdiagonalWinFromTopLeftMostPosition() {
     Board board = createBoard(
-        "   x \n" +
-            "  x  \n" +
-            " x   \n" +
-            "x    \n" +
-            "     \n"
+        "   x " + System.lineSeparator() +
+            "  x  " + System.lineSeparator() +
+            " x   " + System.lineSeparator() +
+            "x    " + System.lineSeparator() +
+            "     "
     );
     assertTrue(VICTORY_CONDITION.isAchievedForPlayer(CHECKED_PLAYER, board));
   }
@@ -235,11 +235,11 @@ public class ConsecutiveCountersVictoryConditionTest {
   @Test
   public void testCounterdiagonalWinFromBottomRightMostPosition() {
     Board board = createBoard(
-        "     \n" +
-            "    x\n" +
-            "   x \n" +
-            "  x  \n" +
-            " x   \n"
+        "     " + System.lineSeparator() +
+            "    x" + System.lineSeparator() +
+            "   x " + System.lineSeparator() +
+            "  x  " + System.lineSeparator() +
+            " x   "
     );
     assertTrue(VICTORY_CONDITION.isAchievedForPlayer(CHECKED_PLAYER, board));
   }
@@ -247,15 +247,15 @@ public class ConsecutiveCountersVictoryConditionTest {
   @Test
   public void testCounterdiagonalWinNotTriggeredByFlowingOver() {
     Board board = createBoard(
-            "xxx x\n" +
-            "xx xx\n" +
-            "x xxx\n"
+            "xxx x" + System.lineSeparator() +
+            "xx xx" + System.lineSeparator() +
+            "x xxx"
     );
     assertFalse(VICTORY_CONDITION.isAchievedForPlayer(CHECKED_PLAYER, board));
   }
 
   private Board createBoard(String boardAsText) {
-    String[] rows = boardAsText.split("\n");
+    String[] rows = boardAsText.split(System.lineSeparator());
     Board board =
         new Board(
             BoardConfiguration.forDimensions(
