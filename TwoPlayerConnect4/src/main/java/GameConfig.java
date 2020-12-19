@@ -25,11 +25,42 @@ public class GameConfig {
   private final List<PlayerConfiguration> playerConfigurations;
 
   /**
+   * The game specification <i>should</i> be provided using a properties file. However, to meet
+   * the coursework requirements, it may be necessary to also add in a method where the game
+   * can be configured using a single integer argument, i.e. the number of consecutive counters.
+   * In this case, a 3-handed game of Connect N should be created, where N is the number passed in
+   * @param consecutiveCounters {@code N}, as described above.
+   * @throws RuntimeException Thrown if {@code consecutiveCounters < 3} or
+   * {@code consecutiveCounters > 6}.
+   */
+  public GameConfig(int consecutiveCounters) throws RuntimeException {
+    this(createPropertiesFromConsecutiveCounters(consecutiveCounters));
+  }
+
+  /**
+   * As a workaround for the {@link #GameConfig(int)} constructor, a {@link Properties} instance
+   * can be generated and passed into the {@link #GameConfig(Properties)} constructor as normal.
+   * In this case, a 3-handed game of Connect N should be created.
+   * @param consecutiveCounters {@code N}, as described above.
+   * @return A valid properties instance that accurately describes a game of 3-handed Connect N.
+   */
+  private static Properties createPropertiesFromConsecutiveCounters(int consecutiveCounters) {
+    if (consecutiveCounters < 3 || consecutiveCounters > 6) {
+      throw new InvalidConfigurationException("Illegal number of counters. Must be >2 and <7");
+    }
+    Properties properties = new Properties();
+    properties.setProperty(VICTORY_COUNTERS, Integer.toString(consecutiveCounters));
+    properties.setProperty(NUMBER_OF_PLAYERS_KEY, "3");
+    return properties;
+  }
+
+  /**
    * Creates a new game configuration based on the specified properties.
    * @param properties The properties to build the game configuration from.
-   * @throws NullPointerException Thrown if {@code properties == null}.
+   * @throws RuntimeException Thrown if the configuration specified in the {@code properties}
+   * instance is invalid.
    */
-  public GameConfig(Properties properties) throws NullPointerException {
+  public GameConfig(Properties properties) throws RuntimeException{
     PropertiesReader propertiesReader = new PropertiesReader(properties);
     this.boardConfiguration = createBoardConfiguration(propertiesReader);
     this.playerConfigurations = createPlayerConfigurations(propertiesReader);

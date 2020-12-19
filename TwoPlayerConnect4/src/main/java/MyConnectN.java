@@ -6,19 +6,39 @@ import java.util.Collection;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
+/**
+ * <p>A game of Connect N.</p>
+ * <br />
+ * <h2>Starting the game</h2>
+ * <p>The game can be instantiated from the terminal in three ways:</p>
+ * <p>
+ *   <pre><code>java MyConnectN</code></pre>
+ *   This creates a standard game of two-player Connect Four.
+ * </p>
+ * <br /><br />
+ * <p>
+ *   <pre><code>java MyConnectN path/to/config.file</code></pre>
+ *   Creates a game of Connect N as specified in the configuration file. Details of the options
+ *   available in the configuration file are defined in the {@link GameConfig} Javadoc.
+ * </p>
+ * <br /><br />
+ * <p>
+ *   <pre><code>java MyConnectN n</code></pre> where {@code n} is an integer in the range
+ *   {@code 2 < n < 7}.
+ * </p>
+ */
 public class MyConnectN {
 
   private final Board board;
   private final Collection<Player> players;
   private final IOHandler ioHandler;
 
-  public MyConnectN(Properties properties) {
-    this(properties, System.in, System.out);
+  public MyConnectN(GameConfig gameConfig) {
+    this(gameConfig, System.in, System.out);
   }
 
-  public MyConnectN(Properties properties, InputStream inputStream, PrintStream outputStream) {
+  public MyConnectN(GameConfig gameConfig, InputStream inputStream, PrintStream outputStream) {
     this.ioHandler = new SingleSourceIOHandler(inputStream, outputStream);
-    GameConfig gameConfig = new GameConfig(properties);
     board = new Board(gameConfig.getBoardConfiguration());
     players = gameConfig
         .getPlayerConfigurations()
@@ -57,23 +77,30 @@ public class MyConnectN {
   }
 
   private static void createAndStartGame(String[] args) throws RuntimeException {
-    Properties properties = getPropertiesFromArguments(args);
-    new MyConnectN(properties).playGame();
+    GameConfig gameConfig = createGameConfig(args);
+    new MyConnectN(gameConfig).playGame();
   }
 
-  private static Properties getPropertiesFromArguments(String[] args) {
-    Properties gameProperties = new Properties();
+  private static GameConfig createGameConfig(String[] args) {
     if (args.length == 0) {
       System.out.println(
           "No config file supplied. Creating a standard game of Connect Four..."
               + System.lineSeparator()
       );
-      return gameProperties;
+      return new GameConfig(new Properties());
     }
 
     try {
+      int consecutiveCounters = Integer.parseInt(args[0]);
+      return new GameConfig(consecutiveCounters);
+    } catch (NumberFormatException e) {
+      // Not an integer argument - good, maybe it's a configuration file as hoped...
+    }
+
+    try {
+      Properties gameProperties = new Properties();
       gameProperties.load(new FileInputStream(args[0]));
-      return gameProperties;
+      return new GameConfig(gameProperties);
     } catch (IOException e) {
       throw new IllegalArgumentException(
           "Could not find or open file " + args[0] + System.lineSeparator()
