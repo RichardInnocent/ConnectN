@@ -139,7 +139,9 @@ public class Board implements PrintableObject, Copyable<Board> {
     }
   }
 
+  // How wide should each column be? Exclude the one-space padding either side
   private int getColumnWidthExcludingPadding() {
+    // The width is the width of the largest column number
     return Integer.toString(width).length();
   }
 
