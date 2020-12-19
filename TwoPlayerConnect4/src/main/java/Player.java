@@ -1,6 +1,3 @@
-import java.util.List;
-import java.util.stream.Collectors;
-
 /**
  * Represents a player in the game of Connect 4. This can be either a human or computer player.
  */
@@ -20,6 +17,12 @@ public interface Player {
    */
   PlayerColour getColour();
 
+  /**
+   * Gets the player's victory condition. It's possible to configure each different player to have
+   * a different victory condition - one player might win by connecting 4 counters in a row, while
+   * another player might win by create a 3x3 grid of counters.
+   * @return The player's victory condition.
+   */
   VictoryCondition getVictoryCondition();
 
   /**
@@ -28,8 +31,18 @@ public interface Player {
    */
   boolean isHuman();
 
+  /**
+   * Determines if the player has achieved their victory condition on the given board.
+   * @param board The board.
+   * @return {@code true} if the player is victorious.
+   */
   boolean isVictoryAchieved(Board board);
 
+  /**
+   * Creates a player.
+   * @param config The specification for the player.
+   * @return The player.
+   */
   static Player create(PlayerConfiguration config) {
     if (config.isComputerPlayer()) {
       return new AIPlayer(config.getColour(), config.getDifficulty(), config.getVictoryCondition());
