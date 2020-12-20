@@ -11,12 +11,12 @@ public class AIPlayer extends AbstractPlayer {
   /**
    * Creates a computer player.
    * @param colour The player's colour.
-   * @param difficulty The difficulty of the AI player.
    * @param victoryCondition The victory condition that will allow the player to win.
+   * @param difficulty The difficulty of the AI player.
    * @throws NullPointerException Thrown if {@code colour == null}, {@code difficult == null} or
    * {@code victoryCondition == null}.
    */
-  public AIPlayer(PlayerColour colour, Difficulty difficulty, VictoryCondition victoryCondition) {
+  public AIPlayer(PlayerColour colour, VictoryCondition victoryCondition, Difficulty difficulty) {
     super(colour, victoryCondition);
     this.difficulty = Objects.requireNonNull(difficulty, "Difficulty is null");
     this.victoryCondition = Objects.requireNonNull(victoryCondition, "Victory condition is null");

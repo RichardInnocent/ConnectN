@@ -45,9 +45,13 @@ public interface Player {
    */
   static Player create(PlayerConfiguration config) {
     if (config.isComputerPlayer()) {
-      return new AIPlayer(config.getColour(), config.getDifficulty(), config.getVictoryCondition());
+      return new AIPlayer(config.getColour(),config.getVictoryCondition(), config.getDifficulty());
     } else {
-      return new HumanPlayer(config.getColour(), config.getVictoryCondition());
+      return new HumanPlayer(
+          config.getColour(),
+          config.getVictoryCondition(),
+          SystemInReader.getInstance()
+      );
     }
   }
 

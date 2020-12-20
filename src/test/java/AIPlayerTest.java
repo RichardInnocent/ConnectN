@@ -14,7 +14,7 @@ public class AIPlayerTest {
     PlayerColour colour = PlayerColour.BLUE;
     Difficulty difficulty = Difficulty.EASY;
     VictoryCondition victoryCondition = mock(VictoryCondition.class);
-    AIPlayer player =  new AIPlayer(colour, difficulty, victoryCondition);
+    AIPlayer player =  new AIPlayer(colour, victoryCondition, difficulty);
     assertEquals(colour, player.getColour());
     assertEquals(difficulty, player.getDifficulty());
     assertEquals(victoryCondition, player.getVictoryCondition());
@@ -23,7 +23,7 @@ public class AIPlayerTest {
   @Test
   public void isHuman_Always_ReturnsFalse() {
     assertFalse(
-        new AIPlayer(PlayerColour.CYAN, Difficulty.EASY, mock(VictoryCondition.class)).isHuman()
+        new AIPlayer(PlayerColour.CYAN, mock(VictoryCondition.class), Difficulty.EASY).isHuman()
     );
   }
 
@@ -32,7 +32,7 @@ public class AIPlayerTest {
     Board board = mock(Board.class);
     when(board.isFull()).thenReturn(true);
     AIStrategy strategy = mock(AIStrategy.class);
-    Player player = new AIPlayer(PlayerColour.BLUE, Difficulty.EASY, mock(VictoryCondition.class));
+    Player player = new AIPlayer(PlayerColour.BLUE, mock(VictoryCondition.class), Difficulty.EASY);
     player.takeTurn(board, mock(IOHandler.class));
     verify(strategy, never()).takeTurn(board, player);
   }
@@ -44,7 +44,7 @@ public class AIPlayerTest {
     VictoryCondition victoryCondition = mock(VictoryCondition.class);
     when(difficulty.getStrategy(victoryCondition)).thenReturn(strategy);
     Board board = mock(Board.class);
-    Player player = new AIPlayer(PlayerColour.BLUE, difficulty, victoryCondition);
+    Player player = new AIPlayer(PlayerColour.BLUE, victoryCondition, difficulty);
     player.takeTurn(board, mock(IOHandler.class));
     verify(strategy, times(1)).takeTurn(board, player);
   }

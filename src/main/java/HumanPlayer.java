@@ -1,19 +1,26 @@
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * A player on the board that is controlled by a person, not a computer.
  */
 public class HumanPlayer extends AbstractPlayer {
 
+  private final BufferedReader inputReader;
+
   /**
    * Creates a player on the board that is controlled by a person, not a computer.
    * @param colour The player colour.
-   * @throws NullPointerException Thrown if {@code colour == null} or
-   * {@code victoryCondition == null}.
+   * @param victoryCondition The condition that the player must meet to be victorious.
+   * @param reader The method of receiving user input.
+   * @throws NullPointerException Thrown if {@code colour == null},
+   * {@code victoryCondition == null} or {@code reader == null}.
    */
-  public HumanPlayer(PlayerColour colour, VictoryCondition victoryCondition)
+  public HumanPlayer(PlayerColour colour, VictoryCondition victoryCondition, BufferedReader reader)
       throws NullPointerException {
     super(colour, victoryCondition);
+    this.inputReader = Objects.requireNonNull(reader);
   }
 
   @Override
@@ -58,7 +65,7 @@ public class HumanPlayer extends AbstractPlayer {
    */
   private String getInput(IOHandler ioHandler) {
     try {
-      return ioHandler.readLine();
+      return inputReader.readLine();
     } catch (IOException e) {
       ioHandler.printLine("Could not read input");
       return null;

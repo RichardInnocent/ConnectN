@@ -15,8 +15,8 @@ public class CheckOneTurnWinConditionStrategyTest {
   private final Difficulty difficulty = mock(Difficulty.class);
   private final AIStrategy strategy =
       new CheckOneTurnWinConditionStrategy(victoryCondition, random);
-  private final Player aiPlayer = new AIPlayer(PlayerColour.RED, difficulty, victoryCondition);
-  private final Player otherPlayer = new AIPlayer(PlayerColour.BLUE, difficulty, victoryCondition);
+  private final Player aiPlayer = new AIPlayer(PlayerColour.RED, victoryCondition, difficulty);
+  private final Player otherPlayer = new AIPlayer(PlayerColour.BLUE, victoryCondition, difficulty);
 
   @Before
   public void configureDifficulty() {
