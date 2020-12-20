@@ -157,4 +157,12 @@ public class PlayerConfiguration {
     }
   }
 
+  @Override
+  public String toString() {
+    StringBuilder stringBuilder = new StringBuilder(playerColour.getName());
+    if (isComputerPlayer()) {
+      stringBuilder.append(" - Computer (").append(difficulty.getName()).append(')');
+    }
+    return stringBuilder.toString();
+  }
 }
