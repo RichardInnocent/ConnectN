@@ -37,7 +37,7 @@ import java.util.stream.IntStream;
  *     <td>{@code players.victory.counters}</td>
  *     <td>Integer &gt; 0</td>
  *     <td>The default number of counters that each player is required to get in a row to be
- *     victorious.</td>
+ *     victorious. This defaults to 4 if not specified.</td>
  *   </tr>
  *   <tr>
  *     <td>{@code players.ai.difficulty}</td>
@@ -57,9 +57,9 @@ import java.util.stream.IntStream;
  *     <td>{@code playerX.ai} where {@code X} should be replaced by the player number.</td>
  *     <td>{@code true} or {@code false}</td>
  *     <td>Whether the player is played by the computer or not. If unspecified, this will default
- *     to {@code false}, although note the first unspecified player will have become a human player
- *     if there are no other explicit definitions for at least one human player. A human player
- *     won't be created if all players have {@code playerX.ai=true}.</td>
+ *     to {@code false}, although note the first unspecified player will become a human player if
+ *     there are no other explicit definitions for at least one human player. A human player won't
+ *     be created if all players have {@code playerX.ai=true}.</td>
  *   </tr>
  *   <tr>
  *     <td>{@code playerX.ai.difficulty} where {@code X} should be replaced by the player number.
