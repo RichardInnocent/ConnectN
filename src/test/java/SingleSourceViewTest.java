@@ -1,27 +1,19 @@
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.PrintStream;
 import org.junit.Test;
 
 public class SingleSourceViewTest {
 
   @Test(expected = NullPointerException.class)
-  public void constructor_InputStreamIsNull_ExceptionThrown() {
-    new SingleSourceView((BufferedReader) null, mock(PrintStream.class));
-  }
-
-  @Test(expected = NullPointerException.class)
   public void constructor_OutputStreamIsNull_ExceptionThrown() {
-    new SingleSourceView(mock(BufferedReader.class), null);
+    new SingleSourceView(null);
   }
 
   @Test
   public void print_ValidPrint_MessageIsPrinted() {
     PrintStream outputStream = mock(PrintStream.class);
-    View view = new SingleSourceView(mock(BufferedReader.class), outputStream);
+    View view = new SingleSourceView(outputStream);
     String message = "Test message";
     view.print(message);
     verify(outputStream, times(1)).print(message);
@@ -30,7 +22,7 @@ public class SingleSourceViewTest {
   @Test
   public void printLine_ValidMessage_MessageIsPrinted() {
     PrintStream outputStream = mock(PrintStream.class);
-    View view = new SingleSourceView(mock(BufferedReader.class), outputStream);
+    View view = new SingleSourceView(outputStream);
     String message = "Test message";
     view.printLine(message);
     verify(outputStream, times(1)).println(message);
@@ -39,7 +31,7 @@ public class SingleSourceViewTest {
   @Test
   public void printLine_NoArguments_EmptyLineIsPrinted() {
     PrintStream outputStream = mock(PrintStream.class);
-    View view = new SingleSourceView(mock(BufferedReader.class), outputStream);
+    View view = new SingleSourceView(outputStream);
     view.printLine();
     verify(outputStream, times(1)).println();
   }
@@ -47,7 +39,7 @@ public class SingleSourceViewTest {
   @Test
   public void printf_NoArguments_ArgumentsPrinted() {
     PrintStream outputStream = mock(PrintStream.class);
-    View view = new SingleSourceView(mock(BufferedReader.class), outputStream);
+    View view = new SingleSourceView(outputStream);
     String format = "Test format";
     view.printf(format);
     verify(outputStream, times(1)).printf(format);
@@ -56,7 +48,7 @@ public class SingleSourceViewTest {
   @Test
   public void printf_SingleArgument_ArgumentsPrinted() {
     PrintStream outputStream = mock(PrintStream.class);
-    View view = new SingleSourceView(mock(BufferedReader.class), outputStream);
+    View view = new SingleSourceView(outputStream);
     String format = "Test format";
     Object argument = mock(Object.class);
     view.printf(format, argument);
@@ -66,7 +58,7 @@ public class SingleSourceViewTest {
   @Test
   public void printf_MultipleArguments_ArgumentsPrinted() {
     PrintStream outputStream = mock(PrintStream.class);
-    View view = new SingleSourceView(mock(BufferedReader.class), outputStream);
+    View view = new SingleSourceView(outputStream);
     String format = "Test format";
     Object argument1 = mock(Object.class);
     Object argument2 = mock(Object.class);
@@ -76,28 +68,9 @@ public class SingleSourceViewTest {
   }
 
   @Test
-  public void readLine_ValidRead_ResultOfReadIsReturned() throws IOException {
-    BufferedReader inputReader = mock(BufferedReader.class);
-    View view = new SingleSourceView(inputReader, mock(PrintStream.class));
-    String message = "Test message";
-    when(inputReader.readLine()).thenReturn(message);
-    assertEquals(message, view.readLine());
-  }
-
-  @Test(expected = IOException.class)
-  public void readLine_ReaderThrowsException_ExceptionThrown() throws IOException {
-    BufferedReader inputReader = mock(BufferedReader.class);
-    View view = new SingleSourceView(inputReader, mock(PrintStream.class));
-    when(inputReader.readLine()).thenThrow(new IOException());
-    view.readLine();
-  }
-
-  @Test
-  public void testClose() throws IOException {
-    BufferedReader inputReader = mock(BufferedReader.class);
+  public void testClose() {
     PrintStream outputStream = mock(PrintStream.class);
-    new SingleSourceView(inputReader, outputStream).close();
-    verify(inputReader, times(1)).close();
+    new SingleSourceView(outputStream).close();
     verify(outputStream, times(1)).close();
   }
 

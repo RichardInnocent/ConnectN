@@ -1,7 +1,3 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Objects;
@@ -12,27 +8,23 @@ import java.util.Objects;
 public class SingleSourceView implements View {
 
   private final PrintStream outputStream;
-  private final BufferedReader inputReader;
 
   /**
-   * Creates a new I/O handler whereby a single input and output source are used.
-   * @param inputStream The input stream.
+   * Creates a new view whereby a single output source is used.
    * @param outputStream The output stream.
+   * @throws NullPointerException Thrown if {@code outputStream == null}.
    */
-  public SingleSourceView(InputStream inputStream, OutputStream outputStream) {
-    this(new BufferedReader(new InputStreamReader(inputStream)), new PrintStream(outputStream));
+  public SingleSourceView(OutputStream outputStream) throws NullPointerException {
+    this(new PrintStream(outputStream));
   }
 
   /**
-   * Creates a new I/O handler whereby a single input and output source are used.
-   * @param inputReader The input stream.
+   * Creates a new view whereby a single output source is used.
    * @param outputStream The output stream.
    * @throws NullPointerException Thrown if {@code inputReader == null} or
    * {@code outputStream == null}.
    */
-  public SingleSourceView(BufferedReader inputReader, PrintStream outputStream)
-      throws NullPointerException {
-    this.inputReader = Objects.requireNonNull(inputReader, "Input reader is null");
+  public SingleSourceView(PrintStream outputStream) throws NullPointerException {
     this.outputStream = Objects.requireNonNull(outputStream, "Output stream is null");
   }
 
@@ -57,14 +49,8 @@ public class SingleSourceView implements View {
   }
 
   @Override
-  public String readLine() throws IOException {
-    return inputReader.readLine();
-  }
-
-  @Override
-  public void close() throws IOException {
+  public void close() {
     // Close the I/O sources
-    inputReader.close();
     outputStream.close();
   }
 }

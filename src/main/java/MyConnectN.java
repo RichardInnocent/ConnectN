@@ -38,7 +38,7 @@ public class MyConnectN {
   }
 
   public MyConnectN(GameConfig gameConfig, InputStream inputStream, PrintStream outputStream) {
-    this.view = new SingleSourceView(inputStream, outputStream);
+    this.view = new SingleSourceView(outputStream);
     board = new Board(gameConfig.getBoardConfiguration());
     players = gameConfig
         .getPlayerConfigurations()

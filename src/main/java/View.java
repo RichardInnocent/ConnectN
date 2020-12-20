@@ -1,5 +1,3 @@
-import java.io.IOException;
-
 /**
  * An interface that should be used when displaying information to the user.
  */
@@ -29,12 +27,5 @@ public interface View extends AutoCloseable {
    * @see java.io.PrintStream#printf(String, Object...) 
    */
   void printf(String format, Object... arguments);
-
-  /**
-   * Reads the next line from the user input source.
-   * @return The next line from the user input source.
-   * @throws IOException Thrown if there is a problem reading the input.
-   */
-  String readLine() throws IOException;
 
 }
