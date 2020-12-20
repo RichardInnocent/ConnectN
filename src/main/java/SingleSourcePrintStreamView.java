@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * Displays information to the user, using a single output source.
  */
-public class SingleSourceView implements View {
+public class SingleSourcePrintStreamView implements View {
 
   private final PrintStream outputStream;
 
@@ -14,7 +14,7 @@ public class SingleSourceView implements View {
    * @param outputStream The output stream.
    * @throws NullPointerException Thrown if {@code outputStream == null}.
    */
-  public SingleSourceView(OutputStream outputStream) throws NullPointerException {
+  public SingleSourcePrintStreamView(OutputStream outputStream) throws NullPointerException {
     this(new PrintStream(outputStream));
   }
 
@@ -24,7 +24,7 @@ public class SingleSourceView implements View {
    * @throws NullPointerException Thrown if {@code inputReader == null} or
    * {@code outputStream == null}.
    */
-  public SingleSourceView(PrintStream outputStream) throws NullPointerException {
+  public SingleSourcePrintStreamView(PrintStream outputStream) throws NullPointerException {
     this.outputStream = Objects.requireNonNull(outputStream, "Output stream is null");
   }
 

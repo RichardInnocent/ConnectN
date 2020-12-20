@@ -60,7 +60,7 @@ public class MyConnectN {
   public MyConnectN(GameConfig gameConfig, InputStream inputStream, PrintStream outputStream)
       throws NullPointerException {
     this.gameConfig = Objects.requireNonNull(gameConfig, "Game config is null");
-    view = new SingleSourceView(outputStream);
+    view = new SingleSourcePrintStreamView(outputStream);
     board = new Board(gameConfig.getBoardConfiguration());
     players = createPlayers(gameConfig, inputStream);
   }
