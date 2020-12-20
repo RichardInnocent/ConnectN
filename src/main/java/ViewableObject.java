@@ -2,12 +2,12 @@
  * Should be inherited by all object types that should be displayed to the user.
  */
 @FunctionalInterface
-public interface PrintableObject {
+public interface ViewableObject {
 
   /**
-   * Prints the object to the specified view.
+   * Views the object.
    * @param view The view that displays output to the user.
    */
-  void printToConsole(View view);
+  void view(View view);
 
 }

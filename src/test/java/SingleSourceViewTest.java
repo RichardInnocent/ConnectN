@@ -15,7 +15,7 @@ public class SingleSourceViewTest {
     PrintStream outputStream = mock(PrintStream.class);
     View view = new SingleSourceView(outputStream);
     String message = "Test message";
-    view.print(message);
+    view.send(message);
     verify(outputStream, times(1)).print(message);
   }
 
@@ -24,7 +24,7 @@ public class SingleSourceViewTest {
     PrintStream outputStream = mock(PrintStream.class);
     View view = new SingleSourceView(outputStream);
     String message = "Test message";
-    view.printLine(message);
+    view.sendLine(message);
     verify(outputStream, times(1)).println(message);
   }
 
@@ -32,7 +32,7 @@ public class SingleSourceViewTest {
   public void printLine_NoArguments_EmptyLineIsPrinted() {
     PrintStream outputStream = mock(PrintStream.class);
     View view = new SingleSourceView(outputStream);
-    view.printLine();
+    view.sendLine();
     verify(outputStream, times(1)).println();
   }
 
@@ -41,7 +41,7 @@ public class SingleSourceViewTest {
     PrintStream outputStream = mock(PrintStream.class);
     View view = new SingleSourceView(outputStream);
     String format = "Test format";
-    view.printf(format);
+    view.sendf(format);
     verify(outputStream, times(1)).printf(format);
   }
 
@@ -51,7 +51,7 @@ public class SingleSourceViewTest {
     View view = new SingleSourceView(outputStream);
     String format = "Test format";
     Object argument = mock(Object.class);
-    view.printf(format, argument);
+    view.sendf(format, argument);
     verify(outputStream, times(1)).printf(format, argument);
   }
 
@@ -63,7 +63,7 @@ public class SingleSourceViewTest {
     Object argument1 = mock(Object.class);
     Object argument2 = mock(Object.class);
     Object argument3 = mock(Object.class);
-    view.printf(format, argument1, argument2, argument3);
+    view.sendf(format, argument1, argument2, argument3);
     verify(outputStream, times(1)).printf(format, argument1, argument2, argument3);
   }
 

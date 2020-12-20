@@ -9,7 +9,7 @@ import java.util.stream.IntStream;
  * The game board. The board can be mutated, and provides methods to report on its position, but is
  * not responsible for determining the outcome of any given move.
  */
-public class Board implements PrintableObject, Copyable<Board> {
+public class Board implements ViewableObject, Copyable<Board> {
 
   private final int width;
   private final int height;
@@ -111,7 +111,7 @@ public class Board implements PrintableObject, Copyable<Board> {
   }
 
   @Override
-  public void printToConsole(View view) {
+  public void view(View view) {
     printBoard(view);
     printSeparator(view);
     printColumnNumbers(view);
@@ -132,10 +132,10 @@ public class Board implements PrintableObject, Copyable<Board> {
             .map(player -> player.getColour().getIcon())
             .orElse(' ');
         // Print the icon, separated by a pipe
-        view.print("| " + icon + " ".repeat(getColumnWidthExcludingPadding()));
+        view.send("| " + icon + " ".repeat(getColumnWidthExcludingPadding()));
       }
       // Print the pipe at the end of the row
-      view.printLine("|");
+      view.sendLine("|");
     }
   }
 
@@ -147,10 +147,10 @@ public class Board implements PrintableObject, Copyable<Board> {
 
   private void printSeparator(View view) {
     for (int columnNumber = 1; columnNumber <= width; columnNumber++) {
-      view.print("|" + "-".repeat(getColumnWidthExcludingPadding() + 2));
+      view.send("|" + "-".repeat(getColumnWidthExcludingPadding() + 2));
     }
     // Print the pipe at the end of the row
-    view.printLine("|");
+    view.sendLine("|");
   }
 
   /**
@@ -162,11 +162,11 @@ public class Board implements PrintableObject, Copyable<Board> {
     // Print the column numbers
     for (int columnNumber = 1; columnNumber <= width; columnNumber++) {
       String columnNumberText = Integer.toString(columnNumber);
-      view.print("| " + columnNumberText + " ".repeat(getColumnWidthExcludingPadding() + 1 - columnNumberText.length()));
+      view.send("| " + columnNumberText + " ".repeat(getColumnWidthExcludingPadding() + 1 - columnNumberText.length()));
     }
 
     // Print the pipe at the end of the row
-    view.printLine("|");
+    view.sendLine("|");
   }
 
   /**

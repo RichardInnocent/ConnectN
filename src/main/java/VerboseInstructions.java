@@ -23,21 +23,21 @@ public class VerboseInstructions extends Instructions {
 
   @Override
   public void printInstructions(View view, GameConfig gameConfig) {
-    view.printLine("Welcome to Connect N!");
+    view.sendLine("Welcome to Connect N!");
 
     List<PlayerConfiguration> playerConfigurations = gameConfig.getPlayerConfigurations();
 
-    view.printf("There are %d players:%s", playerConfigurations.size(), System.lineSeparator());
+    view.sendf("There are %d players:%s", playerConfigurations.size(), System.lineSeparator());
     printPlayersAndVictoryConditions(playerConfigurations, view);
 
     if (playerConfigurations.stream().anyMatch(config -> !config.isComputerPlayer())) {
       // Only print the instructions on how to play the game if there's a human player
-      view.printLine(
+      view.sendLine(
           System.lineSeparator() +
               "To play the game type in the number of the column you want to drop you counter in"
       );
     }
-    view.printLine();
+    view.sendLine();
   }
 
   /**
@@ -49,16 +49,16 @@ public class VerboseInstructions extends Instructions {
         .stream()
         .map(Object::toString)
         .map(playerRep -> "- " + playerRep)
-        .forEach(view::printLine);
-    view.printLine();
+        .forEach(view::sendLine);
+    view.sendLine();
     printVictoryConditions(playerConfigurations, view);
   }
 
   private static void printVictoryConditions(Collection<PlayerConfiguration> players, View view) {
     // Each player can have different victory conditions - print them out by player.
-    view.printLine("How each player wins:");
+    view.sendLine("How each player wins:");
     players.forEach(
-        player -> view.printLine(
+        player -> view.sendLine(
             player.getColour().getName() + ": " + player.getVictoryCondition()
         )
     );

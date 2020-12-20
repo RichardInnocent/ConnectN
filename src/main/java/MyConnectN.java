@@ -89,29 +89,29 @@ public class MyConnectN {
    */
   public void playGame() {
     // Print the instructions
-    new VerboseInstructions(gameConfig).printToConsole(view);
+    new VerboseInstructions(gameConfig).view(view);
 
-    board.printToConsole(view);
-    view.printLine();
+    board.view(view);
+    view.sendLine();
 
     do {
       // Loop through each player (players is already in the order that turns should be taken)
       for (Player player : players) {
         player.takeTurn(board, view); // Take the player's turn
-        board.printToConsole(view); // Print the result, after the player has taken their turn
+        board.view(view); // Print the result, after the player has taken their turn
 
         // Did the player achieve their victory condition on this turn?
         if (player.isVictoryAchieved(board)) {
           // Yes - game over!
-          view.printLine(player.getColour().getName() + " player wins!");
+          view.sendLine(player.getColour().getName() + " player wins!");
           return;
         } else if (board.isFull()) {
           // No, but no more moves can be made as the board is full. The game is a tie!
-          view.printLine("No more moves can be made, and no victor has emerged.");
-          view.printLine("The game is a tie!");
+          view.sendLine("No more moves can be made, and no victor has emerged.");
+          view.sendLine("The game is a tie!");
           return;
         }
-        view.printLine();
+        view.sendLine();
       }
       // The player wasn't victorious, so it's the next player's turn
     } while (true); // Once at the end of players, keep starting over until the game is over

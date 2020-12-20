@@ -3,7 +3,7 @@ import java.util.Objects;
 /**
  * Responsible for displaying instructions to the user.
  */
-public abstract class Instructions implements PrintableObject {
+public abstract class Instructions implements ViewableObject {
 
   private final GameConfig gameConfig;
 
@@ -16,7 +16,7 @@ public abstract class Instructions implements PrintableObject {
    * @param view The view that displays output to the user.
    */
   @Override
-  public void printToConsole(View view) {
+  public void view(View view) {
     printInstructions(view, gameConfig);
   }
 

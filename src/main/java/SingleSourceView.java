@@ -29,22 +29,22 @@ public class SingleSourceView implements View {
   }
 
   @Override
-  public void print(String message) {
+  public void send(String message) {
     outputStream.print(message);
   }
 
   @Override
-  public void printLine(String message) {
+  public void sendLine(String message) {
     outputStream.println(message);
   }
 
   @Override
-  public void printLine() {
+  public void sendLine() {
     outputStream.println();
   }
 
   @Override
-  public void printf(String format, Object... arguments) {
+  public void sendf(String format, Object... arguments) {
     outputStream.printf(format, arguments);
   }
 

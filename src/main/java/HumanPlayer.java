@@ -25,7 +25,7 @@ public class HumanPlayer extends AbstractPlayer {
 
   @Override
   public void takeTurnOnIncompleteBoard(Board board, View view) {
-    view.printLine(getColour().getName() + " player it's your turn!");
+    view.sendLine(getColour().getName() + " player it's your turn!");
     // Continually retrieve input until the user enters a valid column number
     while (true) {
       try {
@@ -34,7 +34,7 @@ public class HumanPlayer extends AbstractPlayer {
         // A valid move has been taken - exit out of the while loop
         return;
       } catch (InvalidMoveException e) {
-        view.printLine(e.getMessage());
+        view.sendLine(e.getMessage());
       }
     }
   }
@@ -47,7 +47,7 @@ public class HumanPlayer extends AbstractPlayer {
    * @throws InvalidMoveException Thrown if the user's input cannot be parsed to a number.
    */
   private int getColumnInput(View view) throws InvalidMoveException {
-    view.print("Choose a column: ");
+    view.send("Choose a column: ");
     String input = getInput(view);
     try {
       // Hopefully the user's input is a number so parse it and return it
@@ -67,7 +67,7 @@ public class HumanPlayer extends AbstractPlayer {
     try {
       return inputReader.readLine();
     } catch (IOException e) {
-      view.printLine("Could not read input");
+      view.sendLine("Could not read input");
       return null;
     }
   }
