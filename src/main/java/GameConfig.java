@@ -40,7 +40,7 @@ import java.util.stream.IntStream;
  *     victorious.</td>
  *   </tr>
  *   <tr>
- *     <td>{@code ai.difficulty}</td>
+ *     <td>{@code players.ai.difficulty}</td>
  *     <td>{@code EASY} or {@code MODERATE}</td>
  *     <td>The default difficulty for the computer players. This defaults to {@code MODERATE} if not
  *     specified.</td>
@@ -83,7 +83,7 @@ public class GameConfig {
   private static final String BOARD_HEIGHT_KEY = "board.height";
   private static final String NUMBER_OF_PLAYERS_KEY = "players.number";
   private static final String VICTORY_COUNTERS = "players.victory.counters";
-  private static final String AI_DIFFICULTY_KEY = "ai.difficulty";
+  private static final String AI_DIFFICULTY_KEY = "players.ai.difficulty";
   private static final String PLAYER_COLOUR_KEY_SUFFIX = ".colour";
   private static final String PLAYER_AI_SUFFIX = ".ai";
   private static final String PLAYER_AI_DIFFICULTY_SUFFIX = '.' + AI_DIFFICULTY_KEY;
