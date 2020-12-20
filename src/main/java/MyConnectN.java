@@ -1,6 +1,8 @@
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.Collection;
 import java.util.Properties;
@@ -40,10 +42,12 @@ public class MyConnectN {
   public MyConnectN(GameConfig gameConfig, InputStream inputStream, PrintStream outputStream) {
     this.view = new SingleSourceView(outputStream);
     board = new Board(gameConfig.getBoardConfiguration());
+    PlayerFactory playerFactory =
+        new SharedInputSourcePlayerFactory(new BufferedReader(new InputStreamReader(inputStream)));
     players = gameConfig
         .getPlayerConfigurations()
         .stream()
-        .map(Player::create)
+        .map(playerFactory::create)
         .collect(Collectors.toList());
   }
 

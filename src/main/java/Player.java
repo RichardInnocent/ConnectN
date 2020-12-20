@@ -38,21 +38,4 @@ public interface Player {
    */
   boolean isVictoryAchieved(Board board);
 
-  /**
-   * Creates a player.
-   * @param config The specification for the player.
-   * @return The player.
-   */
-  static Player create(PlayerConfiguration config) {
-    if (config.isComputerPlayer()) {
-      return new AIPlayer(config.getColour(),config.getVictoryCondition(), config.getDifficulty());
-    } else {
-      return new HumanPlayer(
-          config.getColour(),
-          config.getVictoryCondition(),
-          SystemInReader.getInstance() // Give each user the same input source for now
-      );
-    }
-  }
-
 }
