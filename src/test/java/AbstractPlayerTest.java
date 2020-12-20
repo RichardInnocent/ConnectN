@@ -9,7 +9,7 @@ public class AbstractPlayerTest {
   public void constructor_ColourIsNull_ExceptionThrown() {
     new AbstractPlayer(null, mock(VictoryCondition.class)) {
       @Override
-      public void takeTurnOnIncompleteBoard(Board board, IOHandler ioHandler) {}
+      public void takeTurnOnIncompleteBoard(Board board, View view) {}
 
       @Override
       public boolean isHuman() {
@@ -22,7 +22,7 @@ public class AbstractPlayerTest {
   public void constructor_VictoryConditionIsNull_ExceptionThrown() {
     new AbstractPlayer(PlayerColour.CYAN, null) {
       @Override
-      public void takeTurnOnIncompleteBoard(Board board, IOHandler ioHandler) {}
+      public void takeTurnOnIncompleteBoard(Board board, View view) {}
 
       @Override
       public boolean isHuman() {
@@ -37,7 +37,7 @@ public class AbstractPlayerTest {
     VictoryCondition victoryCondition = mock(VictoryCondition.class);
     Player player = new AbstractPlayer(colour, victoryCondition) {
       @Override
-      public void takeTurnOnIncompleteBoard(Board board, IOHandler ioHandler) {}
+      public void takeTurnOnIncompleteBoard(Board board, View view) {}
 
       @Override
       public boolean isHuman() {
@@ -52,7 +52,7 @@ public class AbstractPlayerTest {
   public void takeTurn_FullBoard_ExceptionThrown() {
     Player player = new AbstractPlayer(PlayerColour.CYAN, mock(VictoryCondition.class)) {
       @Override
-      protected void takeTurnOnIncompleteBoard(Board board, IOHandler ioHandler) {}
+      protected void takeTurnOnIncompleteBoard(Board board, View view) {}
 
       @Override
       public boolean isHuman() {
@@ -61,7 +61,7 @@ public class AbstractPlayerTest {
     };
     Board board = mock(Board.class);
     when(board.isFull()).thenReturn(true);
-    player.takeTurn(board, mock(IOHandler.class));
+    player.takeTurn(board, mock(View.class));
   }
 
   @Test
@@ -69,7 +69,7 @@ public class AbstractPlayerTest {
     int columnNumber = 1;
     Player player = new AbstractPlayer(PlayerColour.CYAN, mock(VictoryCondition.class)) {
       @Override
-      protected void takeTurnOnIncompleteBoard(Board board, IOHandler ioHandler) {
+      protected void takeTurnOnIncompleteBoard(Board board, View view) {
         board.placePlayerCounterInColumn(this, columnNumber);
       }
 
@@ -80,7 +80,7 @@ public class AbstractPlayerTest {
     };
     Board board = mock(Board.class);
     when(board.isFull()).thenReturn(false);
-    player.takeTurn(board, mock(IOHandler.class));
+    player.takeTurn(board, mock(View.class));
     verify(board, times(1)).placePlayerCounterInColumn(player, columnNumber);
   }
 

@@ -2,7 +2,7 @@ import java.util.Objects;
 
 /**
  * Abstract implementation of a player with a static (unchangeable) player colour. The
- * {@link #takeTurn(Board, IOHandler)} method is also overridden to provide safety in the case of a
+ * {@link #takeTurn(Board, View)} method is also overridden to provide safety in the case of a
  * full board.
  */
 public abstract class AbstractPlayer implements Player {
@@ -33,11 +33,11 @@ public abstract class AbstractPlayer implements Player {
   }
 
   @Override
-  public void takeTurn(Board board, IOHandler ioHandler) throws BoardFullException {
+  public void takeTurn(Board board, View view) throws BoardFullException {
     if (board.isFull()) {
       throw new BoardFullException();
     }
-    takeTurnOnIncompleteBoard(board, ioHandler);
+    takeTurnOnIncompleteBoard(board, view);
   }
 
   /**
@@ -45,7 +45,7 @@ public abstract class AbstractPlayer implements Player {
    * @param board The board to add the counter to. Note that {@code board} will never be supplied
    * such that {@link Board#isFull()} is {@code true}.
    */
-  protected abstract void takeTurnOnIncompleteBoard(Board board, IOHandler ioHandler);
+  protected abstract void takeTurnOnIncompleteBoard(Board board, View view);
 
   @Override
   public boolean isVictoryAchieved(Board board) {

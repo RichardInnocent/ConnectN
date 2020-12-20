@@ -46,7 +46,7 @@ public class HumanPlayerTest {
     Player player = new HumanPlayer(PlayerColour.CYAN, mock(VictoryCondition.class), reader);
     Board board = mock(Board.class);
     when(reader.readLine()).thenReturn("3");
-    player.takeTurn(board, mock(IOHandler.class));
+    player.takeTurn(board, mock(View.class));
     verify(board, times(1)).placePlayerCounterInColumn(player, 3);
   }
 
@@ -56,7 +56,7 @@ public class HumanPlayerTest {
     Player player = new HumanPlayer(PlayerColour.CYAN, mock(VictoryCondition.class), reader);
     Board board = mock(Board.class);
     when(reader.readLine()).thenThrow(new IOException()).thenReturn("5");
-    player.takeTurn(board, mock(IOHandler.class));
+    player.takeTurn(board, mock(View.class));
     verify(board, times(1)).placePlayerCounterInColumn(player, 5);
   }
 
@@ -66,7 +66,7 @@ public class HumanPlayerTest {
     Player player = new HumanPlayer(PlayerColour.CYAN, mock(VictoryCondition.class), reader);
     Board board = mock(Board.class);
     when(reader.readLine()).thenReturn(null, "5");
-    player.takeTurn(board, mock(IOHandler.class));
+    player.takeTurn(board, mock(View.class));
     verify(board, times(1)).placePlayerCounterInColumn(player, 5);
   }
 
@@ -76,7 +76,7 @@ public class HumanPlayerTest {
     Player player = new HumanPlayer(PlayerColour.CYAN, mock(VictoryCondition.class), reader);
     Board board = mock(Board.class);
     when(reader.readLine()).thenReturn("Not a number", "5");
-    player.takeTurn(board, mock(IOHandler.class));
+    player.takeTurn(board, mock(View.class));
     verify(board, times(1)).placePlayerCounterInColumn(player, 5);
   }
 
@@ -88,7 +88,7 @@ public class HumanPlayerTest {
     when(reader.readLine()).thenReturn("-1", "5");
     doThrow(new InvalidMoveException("Test exception"))
         .when(board).placePlayerCounterInColumn(any(), eq(-1));
-    player.takeTurn(board, mock(IOHandler.class));
+    player.takeTurn(board, mock(View.class));
     verify(board, times(1)).placePlayerCounterInColumn(player, -1);
     verify(board, times(1)).placePlayerCounterInColumn(player, 5);
   }
@@ -100,7 +100,7 @@ public class HumanPlayerTest {
     Board board = mock(Board.class);
     when(reader.readLine()).thenReturn("1");
     doThrow(new BoardFullException()).when(board).placePlayerCounterInColumn(any(), anyInt());
-    player.takeTurn(board, mock(IOHandler.class));
+    player.takeTurn(board, mock(View.class));
     verify(board, times(1)).placePlayerCounterInColumn(player, -1);
     verify(board, times(1)).placePlayerCounterInColumn(player, 5);
   }

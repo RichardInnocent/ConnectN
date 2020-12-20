@@ -1,13 +1,13 @@
 /**
- * Should be inherited by all object types that should be printed to a print stream.
+ * Should be inherited by all object types that should be displayed to the user.
  */
 @FunctionalInterface
 public interface PrintableObject {
 
   /**
-   * Prints the object to the specified IO output.
-   * @param ioHandler The IO output that the object should be printed to.
+   * Prints the object to the specified view.
+   * @param view The view that displays output to the user.
    */
-  void printToConsole(IOHandler ioHandler);
+  void printToConsole(View view);
 
 }

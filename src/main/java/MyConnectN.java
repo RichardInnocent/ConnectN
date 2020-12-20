@@ -31,14 +31,14 @@ public class MyConnectN {
 
   private final Board board;
   private final Collection<Player> players;
-  private final IOHandler ioHandler;
+  private final View view;
 
   public MyConnectN(GameConfig gameConfig) {
     this(gameConfig, System.in, System.out);
   }
 
   public MyConnectN(GameConfig gameConfig, InputStream inputStream, PrintStream outputStream) {
-    this.ioHandler = new SingleSourceIOHandler(inputStream, outputStream);
+    this.view = new SingleSourceView(inputStream, outputStream);
     board = new Board(gameConfig.getBoardConfiguration());
     players = gameConfig
         .getPlayerConfigurations()
@@ -48,24 +48,24 @@ public class MyConnectN {
   }
 
   public void playGame() {
-    InstructionsHelper.displayInstructions(players, ioHandler);
-    board.printToConsole(ioHandler);
-    ioHandler.printLine();
+    InstructionsHelper.displayInstructions(players, view);
+    board.printToConsole(view);
+    view.printLine();
 
     do {
       for (Player player : players) {
-        player.takeTurn(board, ioHandler);
-        board.printToConsole(ioHandler);
+        player.takeTurn(board, view);
+        board.printToConsole(view);
 
         if (player.isVictoryAchieved(board)) {
-          ioHandler.printLine(player.getColour().getName() + " player wins!");
+          view.printLine(player.getColour().getName() + " player wins!");
           return;
         } else if (board.isFull()) {
-          ioHandler.printLine("No more moves can be made, and no victor has emerged.");
-          ioHandler.printLine("The game is a tie!");
+          view.printLine("No more moves can be made, and no victor has emerged.");
+          view.printLine("The game is a tie!");
           return;
         }
-        ioHandler.printLine();
+        view.printLine();
       }
     } while (true);
   }

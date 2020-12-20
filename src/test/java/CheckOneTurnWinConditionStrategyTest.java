@@ -9,7 +9,7 @@ import org.junit.Test;
 
 public class CheckOneTurnWinConditionStrategyTest {
 
-  private final IOHandler ioHandler = mock(IOHandler.class);
+  private final View view = mock(View.class);
   private final Random random = mock(Random.class);
   private final VictoryCondition victoryCondition = new ConsecutiveCountersVictoryCondition(4);
   private final Difficulty difficulty = mock(Difficulty.class);
@@ -27,7 +27,7 @@ public class CheckOneTurnWinConditionStrategyTest {
   public void testPicksRandomSlotIfBoardIsEmpty() {
     Board board = new Board(BoardConfiguration.forDimensions(new Dimensions(6, 7)));
     when(random.nextInt(6)).thenReturn(0);
-    aiPlayer.takeTurn(board, ioHandler);
+    aiPlayer.takeTurn(board, view);
     Optional<Player> player = board.getOwnerOfCounterAt(1, 1);
     assertTrue(player.isPresent());
     assertEquals(aiPlayer, player.get());
@@ -41,7 +41,7 @@ public class CheckOneTurnWinConditionStrategyTest {
             "O AAA"
     );
     assertTrue(board.getOwnerOfCounterAt(1, 2).isEmpty());
-    aiPlayer.takeTurn(board, ioHandler);
+    aiPlayer.takeTurn(board, view);
     Optional<Player> player = board.getOwnerOfCounterAt(1, 2);
     assertTrue(player.isPresent());
     assertEquals(aiPlayer, player.get());
@@ -55,7 +55,7 @@ public class CheckOneTurnWinConditionStrategyTest {
             "A OOO"
     );
     assertTrue(board.getOwnerOfCounterAt(1, 2).isEmpty());
-    aiPlayer.takeTurn(board, ioHandler);
+    aiPlayer.takeTurn(board, view);
     Optional<Player> player = board.getOwnerOfCounterAt(1, 2);
     assertTrue(player.isPresent());
     assertEquals(aiPlayer, player.get());
@@ -69,7 +69,7 @@ public class CheckOneTurnWinConditionStrategyTest {
             "OAOOO"
     );
     assertTrue(board.getOwnerOfCounterAt(2, 4).isEmpty());
-    aiPlayer.takeTurn(board, ioHandler);
+    aiPlayer.takeTurn(board, view);
     Optional<Player> player = board.getOwnerOfCounterAt(2, 4);
     assertTrue(player.isPresent());
     assertEquals(aiPlayer, player.get());
@@ -83,7 +83,7 @@ public class CheckOneTurnWinConditionStrategyTest {
             "AOAAA"
     );
     assertTrue(board.getOwnerOfCounterAt(2, 4).isEmpty());
-    aiPlayer.takeTurn(board, ioHandler);
+    aiPlayer.takeTurn(board, view);
     Optional<Player> player = board.getOwnerOfCounterAt(2, 4);
     assertTrue(player.isPresent());
     assertEquals(aiPlayer, player.get());
@@ -99,7 +99,7 @@ public class CheckOneTurnWinConditionStrategyTest {
         "A  "
     );
     assertTrue(board.getOwnerOfCounterAt(4, 1).isEmpty());
-    aiPlayer.takeTurn(board, ioHandler);
+    aiPlayer.takeTurn(board, view);
     Optional<Player> player = board.getOwnerOfCounterAt(4, 1);
     assertTrue(player.isPresent());
     assertEquals(aiPlayer, player.get());
@@ -114,7 +114,7 @@ public class CheckOneTurnWinConditionStrategyTest {
                                   "O  "
     );
     assertTrue(board.getOwnerOfCounterAt(4, 1).isEmpty());
-    aiPlayer.takeTurn(board, ioHandler);
+    aiPlayer.takeTurn(board, view);
     Optional<Player> player = board.getOwnerOfCounterAt(4, 1);
     assertTrue(player.isPresent());
     assertEquals(aiPlayer, player.get());
@@ -130,7 +130,7 @@ public class CheckOneTurnWinConditionStrategyTest {
         " AOOA"
     );
     assertTrue(board.getOwnerOfCounterAt(4, 2).isEmpty());
-    aiPlayer.takeTurn(board, ioHandler);
+    aiPlayer.takeTurn(board, view);
     Optional<Player> player = board.getOwnerOfCounterAt(4, 2);
     assertTrue(player.isPresent());
     assertEquals(aiPlayer, player.get());
@@ -146,7 +146,7 @@ public class CheckOneTurnWinConditionStrategyTest {
             " OAAO"
     );
     assertTrue(board.getOwnerOfCounterAt(4, 2).isEmpty());
-    aiPlayer.takeTurn(board, ioHandler);
+    aiPlayer.takeTurn(board, view);
     Optional<Player> player = board.getOwnerOfCounterAt(4, 2);
     assertTrue(player.isPresent());
     assertEquals(aiPlayer, player.get());
@@ -162,7 +162,7 @@ public class CheckOneTurnWinConditionStrategyTest {
             " AOOA"
     );
     assertTrue(board.getOwnerOfCounterAt(4, 5).isEmpty());
-    aiPlayer.takeTurn(board, ioHandler);
+    aiPlayer.takeTurn(board, view);
     Optional<Player> player = board.getOwnerOfCounterAt(4, 5);
     assertTrue(player.isPresent());
     assertEquals(aiPlayer, player.get());
@@ -178,7 +178,7 @@ public class CheckOneTurnWinConditionStrategyTest {
             " OAAO"
     );
     assertTrue(board.getOwnerOfCounterAt(4, 5).isEmpty());
-    aiPlayer.takeTurn(board, ioHandler);
+    aiPlayer.takeTurn(board, view);
     Optional<Player> player = board.getOwnerOfCounterAt(4, 5);
     assertTrue(player.isPresent());
     assertEquals(aiPlayer, player.get());

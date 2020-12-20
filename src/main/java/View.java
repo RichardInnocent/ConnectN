@@ -1,9 +1,9 @@
 import java.io.IOException;
 
 /**
- * An interface that combines the single I/O mechanism used by the game.
+ * An interface that should be used when displaying information to the user.
  */
-public interface IOHandler extends AutoCloseable {
+public interface View extends AutoCloseable {
 
   /**
    * Prints the message to the output stream, with no line break at the end.

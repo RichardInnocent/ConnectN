@@ -33,7 +33,7 @@ public class AIPlayerTest {
     when(board.isFull()).thenReturn(true);
     AIStrategy strategy = mock(AIStrategy.class);
     Player player = new AIPlayer(PlayerColour.BLUE, mock(VictoryCondition.class), Difficulty.EASY);
-    player.takeTurn(board, mock(IOHandler.class));
+    player.takeTurn(board, mock(View.class));
     verify(strategy, never()).takeTurn(board, player);
   }
 
@@ -45,7 +45,7 @@ public class AIPlayerTest {
     when(difficulty.getStrategy(victoryCondition)).thenReturn(strategy);
     Board board = mock(Board.class);
     Player player = new AIPlayer(PlayerColour.BLUE, victoryCondition, difficulty);
-    player.takeTurn(board, mock(IOHandler.class));
+    player.takeTurn(board, mock(View.class));
     verify(strategy, times(1)).takeTurn(board, player);
   }
 

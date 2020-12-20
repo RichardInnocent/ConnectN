@@ -111,17 +111,17 @@ public class Board implements PrintableObject, Copyable<Board> {
   }
 
   @Override
-  public void printToConsole(IOHandler ioHandler) {
-    printBoard(ioHandler);
-    printSeparator(ioHandler);
-    printColumnNumbers(ioHandler);
+  public void printToConsole(View view) {
+    printBoard(view);
+    printSeparator(view);
+    printColumnNumbers(view);
   }
 
   /**
    * Prints the board to the I/O specified. This excludes column numbers.
-   * @param ioHandler The I/O where the board should be printed.
+   * @param view The I/O where the board should be printed.
    */
-  private void printBoard(IOHandler ioHandler) {
+  private void printBoard(View view) {
     // Loop through each row
     for (int row = height-1; row >= 0; row--) {
       // Loop through each column
@@ -132,10 +132,10 @@ public class Board implements PrintableObject, Copyable<Board> {
             .map(player -> player.getColour().getIcon())
             .orElse(' ');
         // Print the icon, separated by a pipe
-        ioHandler.print("| " + icon + " ".repeat(getColumnWidthExcludingPadding()));
+        view.print("| " + icon + " ".repeat(getColumnWidthExcludingPadding()));
       }
       // Print the pipe at the end of the row
-      ioHandler.printLine("|");
+      view.printLine("|");
     }
   }
 
@@ -145,28 +145,28 @@ public class Board implements PrintableObject, Copyable<Board> {
     return Integer.toString(width).length();
   }
 
-  private void printSeparator(IOHandler ioHandler) {
+  private void printSeparator(View view) {
     for (int columnNumber = 1; columnNumber <= width; columnNumber++) {
-      ioHandler.print("|" + "-".repeat(getColumnWidthExcludingPadding() + 2));
+      view.print("|" + "-".repeat(getColumnWidthExcludingPadding() + 2));
     }
     // Print the pipe at the end of the row
-    ioHandler.printLine("|");
+    view.printLine("|");
   }
 
   /**
    * Prints the column numbers of the board. This should be used in conjunction with
-   * {@link #printBoard(IOHandler)}.
-   * @param ioHandler The I/O where the column numbers should be printed.
+   * {@link #printBoard(View)}.
+   * @param view The I/O where the column numbers should be printed.
    */
-  private void printColumnNumbers(IOHandler ioHandler) {
+  private void printColumnNumbers(View view) {
     // Print the column numbers
     for (int columnNumber = 1; columnNumber <= width; columnNumber++) {
       String columnNumberText = Integer.toString(columnNumber);
-      ioHandler.print("| " + columnNumberText + " ".repeat(getColumnWidthExcludingPadding() + 1 - columnNumberText.length()));
+      view.print("| " + columnNumberText + " ".repeat(getColumnWidthExcludingPadding() + 1 - columnNumberText.length()));
     }
 
     // Print the pipe at the end of the row
-    ioHandler.printLine("|");
+    view.printLine("|");
   }
 
   /**

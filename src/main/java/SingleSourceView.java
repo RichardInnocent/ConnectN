@@ -7,9 +7,9 @@ import java.io.PrintStream;
 import java.util.Objects;
 
 /**
- * Basic I/O handler implementation, whereby a single input and output source are used.
+ * Displays information to the user, using a single output source.
  */
-public class SingleSourceIOHandler implements IOHandler {
+public class SingleSourceView implements View {
 
   private final PrintStream outputStream;
   private final BufferedReader inputReader;
@@ -19,7 +19,7 @@ public class SingleSourceIOHandler implements IOHandler {
    * @param inputStream The input stream.
    * @param outputStream The output stream.
    */
-  public SingleSourceIOHandler(InputStream inputStream, OutputStream outputStream) {
+  public SingleSourceView(InputStream inputStream, OutputStream outputStream) {
     this(new BufferedReader(new InputStreamReader(inputStream)), new PrintStream(outputStream));
   }
 
@@ -30,7 +30,7 @@ public class SingleSourceIOHandler implements IOHandler {
    * @throws NullPointerException Thrown if {@code inputReader == null} or
    * {@code outputStream == null}.
    */
-  public SingleSourceIOHandler(BufferedReader inputReader, PrintStream outputStream)
+  public SingleSourceView(BufferedReader inputReader, PrintStream outputStream)
       throws NullPointerException {
     this.inputReader = Objects.requireNonNull(inputReader, "Input reader is null");
     this.outputStream = Objects.requireNonNull(outputStream, "Output stream is null");
