@@ -139,6 +139,7 @@ public class ConsecutiveCountersVictoryCondition implements VictoryCondition {
       }
     }
 
+    // Nope, didn't win in this direction!
     return false;
   }
 
@@ -161,6 +162,7 @@ public class ConsecutiveCountersVictoryCondition implements VictoryCondition {
         consecutiveCount = 0;
       }
     }
+    // Nope, didn't win in this direction from this starting position!
     return false;
   }
 
@@ -201,6 +203,7 @@ public class ConsecutiveCountersVictoryCondition implements VictoryCondition {
       }
     }
 
+    // Nope, didn't win in this direction!
     return false;
   }
 
@@ -223,6 +226,7 @@ public class ConsecutiveCountersVictoryCondition implements VictoryCondition {
         consecutiveCount = 0;
       }
     }
+    // Nope, didn't win in this direction from this starting position!
     return false;
   }
 
