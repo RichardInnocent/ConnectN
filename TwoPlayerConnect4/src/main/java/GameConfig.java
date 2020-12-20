@@ -7,7 +7,75 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
- * Holds the specification for the game.
+ * <p>Holds the specification for the game, usually created from a {@link Properties} instance.</p>
+ * <br />
+ * <h2>Properties configuration</h2>
+ * <p>There are various options that can be set in the {@link Properties} instance, as outlined
+ * below.</p>
+ * <table>
+ *   <tr>
+ *     <th>Key</th>
+ *     <th>Expected value</th>
+ *     <th>Controls</th>
+ *   </tr>
+ *   <tr>
+ *     <td>{@code board.width}</td>
+ *     <td>Integer &gt; 2</td>
+ *     <td>The width of the game board.</td>
+ *   </tr>
+ *   <tr>
+ *      <td>{@code board.height}</td>
+ *      <td>Integer &gt; 2</td>
+ *      <td>The height of the game board.</td>
+ *   </tr>
+ *   <tr>
+ *     <td>{@code players.number}</td>
+ *     <td>Integer between 2 and 8 (inclusive)</td>
+ *     <td>The number of players in the game. If not specified, this will be 2.</td>
+ *   </tr>
+ *   <tr>
+ *     <td>{@code players.victory.counters}</td>
+ *     <td>Integer &gt; 0</td>
+ *     <td>The default number of counters that each player is required to get in a row to be
+ *     victorious.</td>
+ *   </tr>
+ *   <tr>
+ *     <td>{@code ai.difficulty}</td>
+ *     <td>{@code EASY} or {@code MODERATE}</td>
+ *     <td>The default difficulty for the computer players. This defaults to {@code MODERATE} if not
+ *     specified.</td>
+ *   </tr>
+ *   <tr>
+ *     <td>{@code playerX.colour} where {@code X} should be replaced by the player number.</td>
+ *     <td>{@code RED}, {@code YELLOW}, {@code BLUE}, {@code GREEN}, {@code PURPLE}, {@code ORANGE},
+ *     {@code CYAN} or {@code WHITE}.</td>
+ *     <td>The colour of the player as it should be displayed on the board. No two players should
+ *     share the same colour. If unspecified, the player is allocated a colour that has not yet
+ *     been supplied to another player.</td>
+ *   </tr>
+ *   <tr>
+ *     <td>{@code playerX.ai} where {@code X} should be replaced by the player number.</td>
+ *     <td>{@code true} or {@code false}</td>
+ *     <td>Whether the player is played by the computer or not. If unspecified, this will default
+ *     to {@code false}, although note the first unspecified player will have become a human player
+ *     if there are no other explicit definitions for at least one human player. A human player
+ *     won't be created if all players have {@code playerX.ai=true}.</td>
+ *   </tr>
+ *   <tr>
+ *     <td>{@code playerX.ai.difficulty} where {@code X} should be replaced by the player number.
+ *     </td>
+ *     <td>{@code EASY} or {@code MODERATE}</td>
+ *     <td>The difficulty of the player, overriding the default value. This only applies if the
+ *     player is a computer player.</td>
+ *   </tr>
+ *   <tr>
+ *     <td>{@code playerX.victory.counters} where {@code X} should be replaced by the player number.
+ *     </td>
+ *     <td>Integer &gt; 0</td>
+ *     <td>The number of counters that this player is required to get in a row to be victorious,
+ *     overriding the default value.</td>
+ *   </tr>
+ * </table>
  */
 public class GameConfig {
 
