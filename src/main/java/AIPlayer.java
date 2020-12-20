@@ -6,7 +6,6 @@ import java.util.Objects;
 public class AIPlayer extends AbstractPlayer {
 
   private final Difficulty difficulty;
-  private final VictoryCondition victoryCondition;
 
   /**
    * Creates a computer player.
@@ -19,7 +18,6 @@ public class AIPlayer extends AbstractPlayer {
   public AIPlayer(PlayerColour colour, VictoryCondition victoryCondition, Difficulty difficulty) {
     super(colour, victoryCondition);
     this.difficulty = Objects.requireNonNull(difficulty, "Difficulty is null");
-    this.victoryCondition = Objects.requireNonNull(victoryCondition, "Victory condition is null");
   }
 
   /**
@@ -31,11 +29,6 @@ public class AIPlayer extends AbstractPlayer {
   }
 
   @Override
-  public VictoryCondition getVictoryCondition() {
-    return victoryCondition;
-  }
-
-  @Override
   public String toString() {
     return super.toString() + " - Computer (" + difficulty.getName() + ')';
   }
@@ -43,7 +36,7 @@ public class AIPlayer extends AbstractPlayer {
   @Override
   public void takeTurnOnIncompleteBoard(Board board, View view) {
     view.sendLine(getColour().getName() + " player is thinking...");
-    difficulty.getStrategy(victoryCondition).takeTurn(board, this);
+    difficulty.getStrategy(getVictoryCondition()).takeTurn(board, this);
     view.sendLine();
   }
 
