@@ -50,7 +50,7 @@ public interface Player {
       return new HumanPlayer(
           config.getColour(),
           config.getVictoryCondition(),
-          SystemInReader.getInstance()
+          SystemInReader.getInstance() // Give each user the same input source for now
       );
     }
   }
