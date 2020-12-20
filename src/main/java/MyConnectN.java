@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
  */
 public class MyConnectN {
 
+  private final GameConfig gameConfig;
   private final Board board;
   private final Collection<Player> players;
   private final View view;
@@ -40,6 +42,7 @@ public class MyConnectN {
   }
 
   public MyConnectN(GameConfig gameConfig, InputStream inputStream, PrintStream outputStream) {
+    this.gameConfig = Objects.requireNonNull(gameConfig, "Game config is null");
     this.view = new SingleSourceView(outputStream);
     board = new Board(gameConfig.getBoardConfiguration());
     PlayerFactory playerFactory =
@@ -52,7 +55,9 @@ public class MyConnectN {
   }
 
   public void playGame() {
-    InstructionsHelper.displayInstructions(players, view);
+    // Print the instructions
+    new VerboseInstructions(gameConfig).printToConsole(view);
+
     board.printToConsole(view);
     view.printLine();
 
