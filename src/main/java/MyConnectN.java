@@ -50,6 +50,7 @@ public class MyConnectN {
   public void playGame() {
     InstructionsHelper.displayInstructions(players, ioHandler);
     board.printToConsole(ioHandler);
+    ioHandler.printLine();
 
     do {
       for (Player player : players) {
@@ -64,6 +65,7 @@ public class MyConnectN {
           ioHandler.printLine("The game is a tie!");
           return;
         }
+        ioHandler.printLine();
       }
     } while (true);
   }

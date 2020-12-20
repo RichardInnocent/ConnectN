@@ -18,6 +18,7 @@ public class HumanPlayer extends AbstractPlayer {
 
   @Override
   public void takeTurnOnIncompleteBoard(Board board, IOHandler ioHandler) {
+    ioHandler.printLine(getColour().getName() + " player it's your turn!");
     // Continually retrieve input until the user enters a valid column number
     while (true) {
       try {
@@ -39,6 +40,7 @@ public class HumanPlayer extends AbstractPlayer {
    * @throws InvalidMoveException Thrown if the user's input cannot be parsed to a number.
    */
   private int getColumnInput(IOHandler ioHandler) throws InvalidMoveException {
+    ioHandler.print("Choose a column: ");
     String input = getInput(ioHandler);
     try {
       // Hopefully the user's input is a number so parse it and return it

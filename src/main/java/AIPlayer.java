@@ -42,7 +42,9 @@ public class AIPlayer extends AbstractPlayer {
 
   @Override
   public void takeTurnOnIncompleteBoard(Board board, IOHandler ioHandler) {
+    ioHandler.printLine(getColour().getName() + " player is thinking...");
     difficulty.getStrategy(victoryCondition).takeTurn(board, this);
+    ioHandler.printLine();
   }
 
   @Override
