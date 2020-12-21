@@ -1,4 +1,11 @@
-# Connect N
+# Graded Assignment 2: Connect N
+This is piece of coursework I wrote for CM50273 Principles of Programming at the University of Bath.
+Sorry everything's in one package - this was a requirement for the hand-in but does make it a little
+difficult to navigate.
+
+## About
+This is a game of Connect N with 2-8 human or computer players.
+
 ## Starting the game
 The game can be instantiated from the terminal in three ways:
 
